@@ -1,0 +1,22 @@
+<div class="card z-depth-2">
+  <div class="data-info sensor-icon-holder">
+
+    <div class="">
+    <span [class]="sensorClass" [style.color]="sensorColor"></span>
+    </div>
+
+  </div>
+
+  <div class="right cardValue">
+    <div class="desc ">{{name}}</div>
+    <div  class="" [title]="message? message : ''">
+        <h4 *ngIf="rag=='R'" class="mdi mdi-close-circle-o mdi-not-block sensor-danger"></h4>
+        <h4 *ngIf="rag=='A'" class="mdi mdi-alert-triangle mdi-not-block sensor-warning"></h4>
+        <h4  class="flex" data-toggle="counter" data-end="113" class="number" [innerHtml]="formattedValue"></h4>
+    </div>
+  </div>
+  <div class="red progress">
+      <div class="determinate"></div>
+  </div>
+
+</div>

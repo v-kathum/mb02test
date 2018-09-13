@@ -1,0 +1,48 @@
+<div class="container col l9 m9 s12">
+
+        <h4>Live Environmental Data</h4>
+        <h6>Average sensor readings</h6>
+
+        <table class=" highlight centered">
+            <thead>
+            <tr>
+                <th class="left">Property</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Movement</th>
+                <th>Audio</th>
+                <th>Light Lux Lv</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              <ng-template let-building ngFor [ngForOf]="buildingsList">
+                <div *ngIf="showBuildingName">
+                  <h5 *ngIf="building.id != -1" >
+                    <a class="building-row" routerLink="/building/{{building.id}}">{{building.name}}</a>
+                  </h5>
+                  <h2 *ngIf="building.id == -1">{{building.name}}</h2>
+                </div>
+                <tr *ngFor="let prop of building.properties">
+                  <td class="left ">
+                    <a routerLink="/property/{{prop.id}}">{{prop.name}}</a>
+                  </td>
+                  <!-- For now, only temp, humid, light have alerts, so save some time but not getting contextual class for others -->
+                  <td class="" [title]="cellTtip(prop.messages.temp?.message)" [class]="cellClass(prop.messages.temp?.rag)">{{prop.sensorTelemetry?.temp ? prop.sensorTelemetry?.temp : '-'}}</td>
+                  <td class="fine-cell" [title]="cellTtip(prop.messages.humid?.message)" [class]="cellClass(prop.messages.humid?.rag)">{{prop.sensorTelemetry?.humid ? prop.sensorTelemetry?.humid : '-'}}</td>
+                  <td *ngIf="showBuildingName || sensorType=='S2'" class="fine-cell" [title]="cellTtip(prop.messages.light?.message)" [class]="cellClass(prop.messages.light?.rag)">{{prop.sensorTelemetry?.light ? prop.sensorTelemetry?.light : '-'}}</td>
+                  <td *ngIf="showBuildingName || sensorType=='S2'" class="fine-cell">{{prop.sensorTelemetry?.motion >= 0 ? prop.sensorTelemetry?.motion : '-'}}</td>
+                  <td *ngIf="showBuildingName || sensorType=='S1'" class="fine-cell">{{prop.sensorTelemetry?.audio >= 0 ? prop.sensorTelemetry?.audio : '-'}}</td>
+                </tr>
+              </ng-template>
+            </tbody>
+
+
+        </table>
+            <br>
+            <!-- <a href="/property" class="btn z-depth-2 waves-effect"><i class="medium material-icons left">cloud_download</i>Load more</a>
+
+            <a  href="/property" class="btn z-depth-2 waves-effect"><i class="medium material-icons right">arrow_forward</i>Property</a> -->
+</div>
+
+

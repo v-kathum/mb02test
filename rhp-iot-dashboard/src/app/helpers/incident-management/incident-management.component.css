@@ -1,0 +1,11 @@
+.alert-critical {
+    color: red;
+}
+
+.alert-warning {
+  color: rgb(255, 225, 0);
+}
+
+.alert-normal {
+    color: green;
+}

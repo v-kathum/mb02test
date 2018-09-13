@@ -1,0 +1,25 @@
+<div class="container-fluid">
+
+    <!-- Side Menu -->
+    <ul id="slide-out" class="sidenav">
+        <li>
+        <div class="user-view">
+        <div class="background">
+            <img src="">
+        </div>
+        <a routerLink="/dashboard"><img class="imgLogo responsive-img" src="assets/images/logo/Informed-Actions-Logo-Vector.png"></a>
+        </div>
+        </li>
+
+        <li><div class="divider"></div></li>
+
+        <li><a class="waves-effect active" routerLink="/dashboard">Home</a></li>
+        <!-- <li><a class="waves-effect" href="/property">Property</a></li> -->
+
+
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Link</a></li>
+        <li><a class="waves-effect" href="https://informedactions.com/" target="_blank">About Informed Actions</a></li>
+    </ul>
+    <a *ngIf="!loggedIn()" href="#" data-target="slide-out" class="sidenav-trigger"><i class="trigger-btn material-icons side-menu-icon">menu</i></a>
+</div>

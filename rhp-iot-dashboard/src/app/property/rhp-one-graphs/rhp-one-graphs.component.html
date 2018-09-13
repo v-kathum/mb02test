@@ -1,0 +1,17 @@
+<div class="row">
+  
+  <div class="col m6">
+    <!--<app-line-chart type="T" [labels]="labels" [chartData]="tempData" [minData]="minTempData" [maxData]="maxTempData"></app-line-chart>-->
+    <app-line-chart type="T" [labels]="labels" [chartData]="tempData"></app-line-chart>
+  </div>
+
+  <div class="col m6">
+    <!--<app-line-chart type="A" [labels]="labels" [chartData]="audioData" [minData]="minAudioData" [maxData]="maxAudioData"></app-line-chart>-->
+    <app-line-chart type="A" [labels]="labels" [chartData]="audioData"></app-line-chart>
+  </div>
+  
+  <div class="col m6">
+    <app-line-chart type="H" [labels]="labels" [chartData]="humidData"></app-line-chart>
+  </div>
+  
+</div>

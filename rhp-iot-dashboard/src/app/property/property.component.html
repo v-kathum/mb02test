@@ -1,0 +1,123 @@
+<div *ngIf="property" class="dashboard container-fluid">
+  <div class="row">
+    <nav class="navBreadcrumb">
+      <div class="nav-wrapper">
+        <div class="col m6">
+          <a class="breadcrumb black-text" routerLink="/dashboard/">Home </a>
+          <a *ngIf="property.buildingID?.length > 0" class="active breadcrumb black-text" routerLink="/building/{{property.buildingID}}">
+            {{property.buildingName}}
+          </a>
+          <a class="active breadcrumb black-text"> {{property.name}}</a>
+        </div>
+      </div>
+    </nav>
+
+    <h2 class="title center">Property Overview</h2>
+    <div class="divider"></div>
+    <div class="propInfo">
+      <h4>{{property.name | titlecase}}</h4>
+      <span>Last updated: {{property?.lastUpdateTime | date:'yyyy-MM-dd HH:mm'}}</span>
+      <br>
+      <span>Sensor tipe: {{property?.sensorType}}</span>
+    </div>
+    <br>
+    <hr>
+  </div>
+</div>
+
+<section class="dashboard container-fluid">
+  <ngb-tabset>
+    <ngb-tab id="history">
+      <ng-template ngbTabTitle>
+        <button [class]="selectedTabTitleClass('history')">Current</button>
+      </ng-template>
+      <ng-template ngbTabContent>
+
+
+        <div *ngIf="property?.sensorType=='S1'">
+          <app-rhp-one-telemetry-tickers [telemetry]="property?.sensorTelemetry" [messages]="property.messages"></app-rhp-one-telemetry-tickers>
+        </div>
+        <div *ngIf="property?.sensorType=='S2'">
+          <app-rhp-two-telemetry-tickers [telemetry]="property?.sensorTelemetry" [messages]="property.messages"></app-rhp-two-telemetry-tickers>
+        </div>
+
+
+        <div class="form-group">
+          <div class="col m12 radio-btn">
+            <form class="row" action="" #f="ngForm" (change)="graphSelectorChanged()">
+              <div class="col m1">
+                <div class="be-radio inline">
+                  <input type="radio" [(ngModel)]="dayWeekMonth" value="D" name="dwm" id="rad6">
+                  <label for="rad6">Day</label>
+                </div>
+              </div>
+              <div class="col m1">
+                <div class="be-radio inline">
+                  <input type="radio" [(ngModel)]="dayWeekMonth" value="W" name="dwm" id="rad7">
+                  <label for="rad7">Week</label>
+                </div>
+              </div>
+              <div class="col m2">
+                <div class="be-radio inline">
+                  <input type="radio" [(ngModel)]="dayWeekMonth" value="M" name="dwm" id="rad8">
+                  <label for="rad8">Month</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <div *ngIf="property?.sensorType=='S1'">
+            <app-rhp-one-graphs [telemetry]="history"></app-rhp-one-graphs>
+          </div>
+
+          <div *ngIf="property?.sensorType=='S2'">
+            <app-rhp-two-graphs [telemetry]="history"></app-rhp-two-graphs>
+          </div>
+        </div>
+
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab id="forecast">
+      <ng-template ngbTabTitle>
+        <button [class]="selectedTabTitleClass('forecast')">Forecast</button>
+      </ng-template>
+
+      <ng-template ngbTabContent>
+
+          <div class="form-group">
+              <div class="col m12">
+                <form class="row" action="" #f="ngForm" (change)="forecastSelectorChanged()">
+                  <div class="col m1">
+                    <div class="be-radio inline">
+                      <input type="radio" [(ngModel)]="forecastDayWeekMonth" value="W" name="dwm" id="rad1">
+                      <label for="rad1">Week</label>
+                    </div>
+                  </div>
+                  <div class="col m1">
+                    <div class="be-radio inline">
+                      <input type="radio" [(ngModel)]="forecastDayWeekMonth" value="M" name="dwm" id="rad2">
+                      <label for="rad2">Month</label>
+                    </div>
+                  </div>
+                  <div class="col m2">
+                    <div class="be-radio inline">
+                      <input type="radio" [(ngModel)]="forecastDayWeekMonth" value="6M" name="dwm" id="rad3">
+                      <label for="rad3">6 Month</label>
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+
+        <div class="container-fluid">
+          <app-forecast-graphs [forecast]="forecast"></app-forecast-graphs>
+        </div>
+
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</section>
