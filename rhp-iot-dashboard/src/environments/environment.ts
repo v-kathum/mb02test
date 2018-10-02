@@ -6,5 +6,9 @@
 export const environment = {
   production: false,
   mock: true,
-  apiUrl: 'http://localhost:5000/api/'
+  apiUrl: 'http://localhost:5000/api/',
+  databaseName: 'rhpminutmongo',
+  key: 'Vfv46zHW6g0fFEcQrEYXcncPu3ItHPCHT2clejG8awb0maCe2cofnSHGdt5AvP44v5p41hHAjxrXFDOC6bLcIQ==',
+  port: 10255
 };
+

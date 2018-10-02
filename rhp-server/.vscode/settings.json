@@ -1,3 +1,4 @@
 {
-    "git.ignoreLimitWarning": true
+    "appService.defaultWebAppToDeploy": "/subscriptions/4d3a1b81-6ab1-4420-940d-bc7389819a4c/resourceGroups/rhp-iot/providers/Microsoft.Web/sites/rhp-demo-4",
+    "appService.deploySubpath": ""
 }

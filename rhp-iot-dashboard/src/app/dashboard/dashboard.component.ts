@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   buildings: Building[] = [];
   singleProperties: PropertyData[] = [];
   buildingsWithFake: Building[] = [];
+  filteredItems: any[];
 
   currentFilter: string = null;
 

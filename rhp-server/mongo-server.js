@@ -36,8 +36,24 @@ function deleteMany(collection) {
     });
 }
 
+function insertOne(collection,data) {
+    MongoClient.connect(mongoUri, { useNewUrlParser: true }, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("sensor-data");
+        dbo.collection(collection).update({ _id : data._id }, data, {upsert: true}, function (err, res) {
+            if (err) throw err;
+            console.log("Documents inserted into ", collection);
+            db.close();
+            return new Promise(resolve => {
+                resolve();
+            });
+        });
+    });
+}
+
 //Export the above methods
 module.exports = {
     insertMany,
+    insertOne,
     deleteMany
 }

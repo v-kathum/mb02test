@@ -10,7 +10,7 @@ export interface TelemetryType {
   suggestedMin(): number;
   suggestedMax(): number;
   color(): string;
-  getAxisLabel(): string
+  getAxisLabel(): string;
 }
 
 export function getSensorType(type: string): TelemetryType {
@@ -31,26 +31,26 @@ export function getSensorType(type: string): TelemetryType {
     case 'A':
       return new Audio();
     default:
-      throw new Error("unknown type: " + type);
+      throw new Error('unknown type: ' + type);
   }
 }
 
 export class Temp implements TelemetryType {
 
   formatValue(value: number): string {
-    return Math.round(value * 10) / 10 + ("&#176;");
+    return Math.round(value * 10) / 10 + ('&#176;');
   }
   title(): string {
-    return "Temperature";
+    return 'Temperature';
   }
   mdiIcon(): string {
-    return "mdi-thermometer-lines";
+    return 'mdi-thermometer-lines';
   }
   amberLines(): number[] {
-    return [20,24];
+    return [20, 24];
   }
   redLines(): number[] {
-    return [16,28];
+    return [16, 28];
   }
   suggestedMin(): number {
     return 15;
@@ -62,20 +62,20 @@ export class Temp implements TelemetryType {
     return Colors.DANGER;
   }
   getAxisLabel(): string {
-    return "degrees C";
+    return 'degrees C';
   }
 }
 
 export class TempForecast implements TelemetryType {
 
   formatValue(value: number): string {
-    return Math.round(value * 10) / 10 + ("&#176;");
+    return Math.round(value * 10) / 10 + ('&#176;');
   }
   title(): string {
-    return "Temperature Forecast";
+    return 'Temperature Forecast';
   }
   mdiIcon(): string {
-    return "mdi-thermometer-lines";
+    return 'mdi-thermometer-lines';
   }
   amberLines(): number[] {
     return [];
@@ -93,25 +93,25 @@ export class TempForecast implements TelemetryType {
     return Colors.DANGER;
   }
   getAxisLabel(): string {
-    return "degrees C";
+    return 'degrees C';
   }
 }
 
 export class Humid implements TelemetryType {
   formatValue(value: number): string {
-    return Math.round(value * 10) / 10 + ("%");
+    return Math.round(value * 10) / 10 + ('%');
   }
   title(): string {
-    return "Humidity";
+    return 'Humidity';
   }
   mdiIcon(): string {
-    return "mdi-weather-rainy";
+    return 'mdi-weather-rainy';
   }
   amberLines(): number[] {
-    return [40,70];
+    return [40, 70];
   }
   redLines(): number[] {
-    return [30,80];
+    return [30, 80];
   }
   suggestedMin(): number {
     return 25;
@@ -123,15 +123,15 @@ export class Humid implements TelemetryType {
     return Colors.PRIMARY;
   }
   getAxisLabel(): string {
-    return "Humidity %";
+    return 'Humidity %';
   }
 }
 export class HumidForecast implements TelemetryType {
   formatValue(value: number): string {
-    return Math.round(value * 10) / 10 + ("%");
+    return Math.round(value * 10) / 10 + ('%');
   }
   title(): string {
-    return "Humidity Forecast";
+    return 'Humidity Forecast';
   }
   mdiIcon(): string {
     return 'mdi-weather-rainy';

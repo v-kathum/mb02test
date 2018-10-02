@@ -52,6 +52,7 @@ import { RhpTwoTelemetryTickersComponent } from './property/rhp-two-telemetry-ti
 // 3rd party
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+import { MongoService } from './_services/mongo.service';
 // import { MaterializeModule, MaterializeDirective } from 'angular2-materialize';
 // import { JwtModule } from 'angular2-jwt';
 
@@ -105,7 +106,8 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
    providers: [
       AuthService,
       AlertifyService,
-      PropertyService
+      PropertyService,
+      MongoService
    ],
    bootstrap: [
       AppComponent
