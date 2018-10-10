@@ -1,12 +1,11 @@
-// import _ from lodash // import lodash
-
 const request = require('request')
-// const deviceData = []
+const _ = require('lodash')
+
+const minutURL = 'https://api.minut.com/v1/oauth/token'
 
 const handler = ({ done }) => {
   request.post({
-    url: 'https://api.minut.com/v1/oauth/token',
-    'content-type': 'application/json',
+    url: minutURL,
     formData: {
       client_id: 'b2476a2909f68667',
       redirect_uri: 'http://localhost:8080',
@@ -19,31 +18,32 @@ const handler = ({ done }) => {
     if (e) {
       return done(e)
     } else {
-      console.log('Error: ', e)
-      console.log('Response: ', r)
-      console.log('Body (index): ', b)
-      console.log('Access Token: ', b.access_token)
-      // const accessToken = b.access_token
+      const body = JSON.parse(b)
+      const accessToken = body.access_token
       request.get('https://api.minut.com/draft1/admin/devices', {
         'auth': {
-          'bearer ': accessToken
+          'bearer': accessToken
         }
-      }, (e, r, b) => {
-        if (e) {
-          return done(e)
+      }, (error, response, body) => {
+        if (error) {
+          return done(error)
         } else {
-          done(null, b)
-          // _.map(deviceData, (body) => {
-          //   "deviceId": body.device_id,
-          //   "deviceMac": body.device_mac,
-          //   "accountId": body.account_id,
-          //   "homeId": body.home_id,
-          //   "alarmHeard":
-          // })
+          const deviceBody = _.get(JSON.parse(body), 'devices')
+          console.log('Device Body: ', deviceBody)
+          const deviceData = _.map(deviceBody, (device) => {
+            // May want to async this considering multiple api calls
+            // request.get( 'https://api.minut.com/draft1/admin/devices/${device.device_id} ')
+            return {
+              id: device.device_id,
+              mac: device.device_mac,
+              account: device.account_id,
+              home: device.home_id
+            }
+          })
+          console.log('Device Data: ', deviceData)
         }
       })
     }
-    console.log('Upload successful!  Server responded with:', b)
   })
 }
 
