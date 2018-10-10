@@ -1,8 +1,12 @@
+// import _ from lodash // import lodash
+
 const request = require('request')
+// const deviceData = []
 
 const handler = ({ done }) => {
   request.post({
     url: 'https://api.minut.com/v1/oauth/token',
+    'content-type': 'application/json',
     formData: {
       client_id: 'b2476a2909f68667',
       redirect_uri: 'http://localhost:8080',
@@ -11,23 +15,17 @@ const handler = ({ done }) => {
       grant_type: 'password',
       username: 'rhp@example.com'
     }
-  }, (error, response, body) => {
-    if (error) {
-      return done(error)
+  }, (e, r, b) => {
+    if (e) {
+      return done(e)
     } else {
-      const accessToken = body.access_token
-      request.get('https://api.minut.com/draft1/admin/devices', {
-        'auth': {
-          'bearer': accessToken
-        }
-      }, (error, response, body) => {
-        if (error) {
-          return done(error)
-        } else {
-          done(null, body)
-        }
-      })
+      console.log('Error: ', e)
+      console.log('Response: ', r)
+      console.log('Body (index): ', b)
+      console.log('Access Token: ', b.access_token)
+      // const accessToken = b.access_token
     }
+    console.log('Upload successful!  Server responded with:', b)
   })
 }
 
