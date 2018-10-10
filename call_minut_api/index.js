@@ -15,7 +15,18 @@ const handler = ({ done }) => {
     if (error) {
       return done(error)
     } else {
-      done(null, body)
+      const accessToken = body.access_token
+      request.get('https://api.minut.com/draft1/admin/devices', {
+        'auth': {
+          'bearer': accessToken
+        }
+      }, (error, response, body) => {
+        if (error) {
+          return done(error)
+        } else {
+          done(null, body)
+        }
+      })
     }
   })
 }
