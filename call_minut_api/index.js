@@ -24,6 +24,24 @@ const handler = ({ done }) => {
       console.log('Body (index): ', b)
       console.log('Access Token: ', b.access_token)
       // const accessToken = b.access_token
+      request.get('https://api.minut.com/draft1/admin/devices', {
+        'auth': {
+          'bearer ': accessToken
+        }
+      }, (e, r, b) => {
+        if (e) {
+          return done(e)
+        } else {
+          done(null, b)
+          // _.map(deviceData, (body) => {
+          //   "deviceId": body.device_id,
+          //   "deviceMac": body.device_mac,
+          //   "accountId": body.account_id,
+          //   "homeId": body.home_id,
+          //   "alarmHeard":
+          // })
+        }
+      })
     }
     console.log('Upload successful!  Server responded with:', b)
   })
