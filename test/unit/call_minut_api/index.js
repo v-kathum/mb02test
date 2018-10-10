@@ -18,3 +18,19 @@ test.cb('call_minut_api', (t) => {
 
   handler({ done })
 })
+
+test.cb('call_minut_api', (t) => {
+  const body = 'body'
+  const scope =
+    nock(/api\.minut\.com/)
+      .post(/\/v1\/oauth\/token/, /.*/)
+      .reply(401)
+
+  const done = (e, success) => {
+    t.true(scope.isDone())
+    t.falsy(success === body)
+    t.end()
+  }
+
+  handler({ done })
+})
