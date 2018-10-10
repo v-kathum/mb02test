@@ -1,14 +1,11 @@
 'use strict';
 
-/* eslint-disable no-param-reassign */
-
-module.exports.hello = function (context) {
-  context.log('JavaScript HTTP trigger function processed a request.');
-
-  context.res = {
-    // status: 200, /* Defaults to 200 */
-    body: 'Go Serverless v1.x! Your function executed successfully!',
-  };
-
+module.exports.hello = function(context, minutTimer) {{
+  const minutURL = ''
+  const timeStamp = new Date().toISOString();
+  // if(minutTimer.isPastDue) {
+  //   context.log('Calling MinutAPI and acquiring necessary properties');
+  // }
+  context.log('Timer trigger function ran!', timeStamp)
   context.done();
-};
+}}

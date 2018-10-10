@@ -1,0 +1,31 @@
+// {
+//   "bindings" : [
+//     {
+//       "type": "eventHubTrigger"
+//       "name": "req"
+//       "connection": "",
+//       "path": "iotEventHub",
+//       "cardinality": "many",
+//       "direction": "in"
+//     },
+//     {
+//       "type": "queueStorage",
+//       "name": "outToCosmosDB",
+//       "connection": "",
+//       "path": "",
+//       "direction": "out"
+//     },
+//     {
+//       "type": "queueStorage",
+//       "name": "outToPostgresDB",
+//       "connection": "",
+//       "path": "",
+//       "direction": "out"
+//     }
+//   ]
+// }
+// }
+
+{
+
+}
