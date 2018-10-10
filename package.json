@@ -8,15 +8,60 @@
     "serverless"
   ],
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
     "ava": "^0.25.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "nock": "^10.0.1",
+    "nyc": "^13.0.1",
     "onchange": "^5.0.2",
     "proxyquire": "^2.1.0",
     "serverless-azure-functions": "*",
     "sinon": "^6.3.5",
+    "snazzy": "^8.0.0",
     "standard": "^12.0.1"
   },
   "dependencies": {
     "request": "^2.88.0"
+  },
+  "scripts": {
+    "test": "standard --fix --verbose | snazzy && nyc ava",
+    "watch": "onchange '**/*.js' -- npm run test"
+  },
+  "babel": {
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./"
+          ],
+          "alias": {
+            "call_minut_api": "./call_minut_api"
+          }
+        }
+      ]
+    ]
+  },
+  "ava": {
+    "files": [
+      "test/unit/**/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": true,
+    "reporter": [
+      "html",
+      "text-summary"
+    ]
   }
 }
