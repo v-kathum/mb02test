@@ -4,17 +4,13 @@ provider:
   name: azure
   location: UK South
 
+functions:
+  call_minut_api:
+    handler: call_minut_api/index.handler
+    events:
+      - timer:
+        x-azure-settings:
+          schedule: 0 */5 * * * *
+
 plugins:
   - serverless-azure-functions
-
-functions:
-  hello:
-    handler: handler.hello
-    events:
-      - timer: true
-        x-azure-settings:
-          direction: out
-          name: minutCallObj
-          schedule: */5 * * * *
-
-
