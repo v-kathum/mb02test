@@ -1,5 +1,6 @@
 const request = require('request')
 const _ = require('lodash')
+// const async = require('async')
 
 const minutUrl = 'https://api.minut.com'
 
@@ -42,24 +43,52 @@ const getDeviceList = (token) =>
     })
   })
 
-const getDeviceInformation = (token, devices, path) =>
-  new Promise((resolve, reject) => {
-    console.log('Get to Device Info Function')
-    const devInfo = _.map(devices, (device) => {
-      request.get(`${minutUrl}/devices/${device.id}/${path}`, {
-        'auth': {
-          'bearer': token
-        },
-        'json': true
-      }, (error, response, body) => {
-        if (error) {
-          return reject(error)
-        }
+// const getDeviceInformationOld = (token, devices, path) =>
+//   new Promise((resolve, reject) => {
+//     console.log('Get to Device Info Function')
+//     const devInfo = _.map(devices, (device) => {
+//       request.get(`${minutUrl}/devices/${device.id}/${path}`, {
+//         'auth': {
+//           'bearer': token
+//         },
+//         'json': true
+//       }, (error, response, body) => {
+//         if (error) {
+//           return reject(error)
+//         }
 
-        resolve(devInfo)
-      })
+//         resolve(devInfo)
+//       })
+//     })
+//   })
+
+const getDeviceInformation = (token, devices, path) => {
+  async.parallel(['temperature', 'sound', 'humidity', 'battery'].reduce((result, type) => {
+    devices.forEach((device) => result.push({
+      deviceId: device.id, type
+    }))
+  }, []).map(({ type, deviceId }) => (done) => {
+    request.get(`${minutUrl}/devices/${deviceId}/${type}`, {
+      'auth': {
+        'bearer': token
+      },
+      'json': true
+    }, (error, response, body) => {
+      if (error) {
+        return done(error)
+      }
+      return body
     })
-  })
+  }), (error, result) => {
+    if(error) {
+      console.log('error')
+    }
+    else {
+      return result
+    }
+  }))
+}
+
 
 const handler = async ({ done }) => {
   try {
@@ -70,12 +99,10 @@ const handler = async ({ done }) => {
     const devices = await getDeviceList(accessToken)
     const devicesTemp = await getDeviceInformation(accessToken, devices, 'temperature')
     const devicesSound = await getDeviceInformation(accessToken, devices, 'sound')
+    const devicesHumidity = await getDeviceInformation(accessToken, devices, 'humidity')
+    const devicesBattery = await getDeviceInformation(accessToken, devices, 'battery')
 
     console.log('Device Information: ', devicesTemp, devicesSound)
-
-    const deviceData = devices.map((devices) => {
-      // here you need to add the temp, sound, etc.. info for each device
-    })
 
     done(null, deviceData)
   } catch (error) {

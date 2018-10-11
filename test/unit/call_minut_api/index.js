@@ -68,6 +68,10 @@ const devicesBody = {
   ]
 }
 
+// const tempData = {
+
+// }
+
 test.cb('call_minut_api: Get user credentials', (t) => {
   const scope =
     nock(/api\.minut\.com/)
