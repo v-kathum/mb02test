@@ -82,7 +82,7 @@ test.cb('call_minut_api: Get user credentials', (t) => {
 
   const done = (error, success) => {
     t.true(scope.isDone())
-    // t.falsy(error)
+    t.truthy(error)
     t.end()
   }
 
@@ -94,6 +94,7 @@ test.cb('call_minut_api: Get device list', (t) => {
     nock(/api\.minut\.com/)
       .get(/\/draft1\/admin\/devices/, /.*/)
       .reply(200, devicesBody)
+
   const done = (error, success) => {
     t.false(scope.isDone())
     t.falsy(success === devicesBody)

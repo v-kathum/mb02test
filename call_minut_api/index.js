@@ -36,8 +36,6 @@ const getDeviceList = (token) =>
       if (error) {
         return reject(error)
       }
-
-      // const devBody = _.get(JSON.parse(body), 'devices')
       const devBody = _.get(body, 'devices')
 
       resolve(devBody)
@@ -46,6 +44,7 @@ const getDeviceList = (token) =>
 
 const getDeviceInformation = (token, devices, path) =>
   new Promise((resolve, reject) => {
+    console.log('Get to Device Info Function')
     const devInfo = _.map(devices, (device) => {
       request.get(`${minutUrl}/devices/${device.id}/${path}`, {
         'auth': {
