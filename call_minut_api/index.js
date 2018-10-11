@@ -1,6 +1,6 @@
 const request = require('request')
 const _ = require('lodash')
-// const async = require('async')
+const async = require('async')
 
 const minutUrl = 'https://api.minut.com'
 
@@ -62,33 +62,20 @@ const getDeviceList = (token) =>
 //     })
 //   })
 
-const getDeviceInformation = (token, devices, path) => {
+const getDeviceInformation = (token, devices, path) =>
   async.parallel(['temperature', 'sound', 'humidity', 'battery'].reduce((result, type) => {
     devices.forEach((device) => result.push({
-      deviceId: device.id, type
+      deviceId: device.device_id, type
     }))
-  }, []).map(({ type, deviceId }) => (done) => {
-    request.get(`${minutUrl}/devices/${deviceId}/${type}`, {
-      'auth': {
-        'bearer': token
-      },
-      'json': true
-    }, (error, response, body) => {
-      if (error) {
-        return done(error)
-      }
-      return body
-    })
-  }), (error, result) => {
-    if(error) {
+    console.log('Results: ', result)
+  }, []), (error, result) => {
+    if (error) {
       console.log('error')
-    }
-    else {
+    } else {
+      console.log('Result: ', result)
       return result
     }
-  }))
-}
-
+  })
 
 const handler = async ({ done }) => {
   try {
@@ -98,13 +85,17 @@ const handler = async ({ done }) => {
 
     const devices = await getDeviceList(accessToken)
     const devicesTemp = await getDeviceInformation(accessToken, devices, 'temperature')
+    console.log('Devices Temp: ', devicesTemp)
+
     const devicesSound = await getDeviceInformation(accessToken, devices, 'sound')
     const devicesHumidity = await getDeviceInformation(accessToken, devices, 'humidity')
     const devicesBattery = await getDeviceInformation(accessToken, devices, 'battery')
 
-    console.log('Device Information: ', devicesTemp, devicesSound)
+    console.log('Devices Sound: ', devicesSound)
+    console.log('Devices Humidity: ', devicesHumidity)
+    console.log('Devices Battery: ', devicesBattery)
 
-    done(null, deviceData)
+    done(null, devices)
   } catch (error) {
     done(error)
   }

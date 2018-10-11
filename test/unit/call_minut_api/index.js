@@ -22,55 +22,36 @@ const devicesBody = {
         'percent': null
       }
     },
-    {
-      'device_id': '5ab27262b933c045e709ea9f',
-      'device_mac': 'b0f1ec1d3210',
-      'account_id': '5ab235e749ccbd0001a8cf38',
-      'home_id': '5ab26fa472e79160c52b7465',
-      'offline': false,
-      'active': false,
-      'last_heard_from_at': 1533634854,
-      'first_seen_at': 1521644131,
-      'firmware': {
-        'installed': 10744,
-        'wanted': null
-      },
-      'hardware_version': 105,
-      'description': 'RHP Demo',
-      'timezone': 'Europe/Stockholm',
-      'battery': {
-        'voltage': 3.61899995803833,
-        'low_warning_sent_at': 1532632649,
-        'percent': null
-      }
-    },
-    {
-      'device_id': '5adb7e707e9b57e7945f791b',
-      'device_mac': 'b0f1ec1cf578',
-      'account_id': '5adb7dc47e9b5757725f78e0',
-      'home_id': '5adb7e00d615801aa139313b',
-      'offline': true,
-      'active': true,
-      'last_heard_from_at': 1526824181,
-      'first_seen_at': 1524334192,
-      'firmware': {
-        'installed': 10285
-      },
-      'hardware_version': 105,
-      'description': 'Hallway',
-      'timezone': 'Europe/London',
-      'battery': {
-        'voltage': 0.003000000026077032,
-        'low_warning_sent_at': 1525980597,
-        'percent': null
-      }
-    }
   ]
 }
 
-// const tempData = {
+const devicesEvents = {
+  id: '0'
+}
 
-// }
+const soundData = {
+  "unit": "",
+  "time_resolution": null,
+  "values": []
+}
+
+const tempData = {
+  "unit": "celsius",
+  "time_resolution": null,
+  "values": []
+}
+
+const humdityData = {
+  "unit": "% rH",
+  "time_resolution": null,
+  "values": []
+}
+
+const batteryData = {
+    "unit": "",
+    "time_resolution": null,
+    "values": []
+}
 
 test.cb('call_minut_api: Get user credentials', (t) => {
   const scope =
@@ -108,6 +89,19 @@ test.cb('call_minut_api: Get device list', (t) => {
 
   handler({ done })
 })
+
+test.cb('call_minut_api: Get device information', (t) => {
+  const scope =
+    nock(/api\.minut\.com/)
+      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/temperature/, /.*/)
+      .reply(200, tempData)
+
+
+  const done = (error, success) => {
+    t.true(scope.isDone())
+    t.truthy(error)
+    t.end()
+  }
 
 // test.cb('call_minut_api', (t) => {
 //   const body = 'body'
