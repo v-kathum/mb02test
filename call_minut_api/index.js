@@ -1,11 +1,22 @@
 const request = require('request')
 const _ = require('lodash')
 
-const minutURL = 'https://api.minut.com/v1/oauth/token'
+const minutURL = 'https://api.minut.com'
+
+const getDeviceList = (token) => {
+  request.get('$(minutUrl)/draft1/admin/devices', {
+
+  })
+}
+const getTempList = (id) => {
+  request.get(`$(minutUrl)/devices/${device_id}/temperature`, {
+
+  })
+}
 
 const handler = ({ done }) => {
   request.post({
-    url: minutURL,
+    url: `$(minutUrl)/v1/oauth/token`,
     formData: {
       client_id: 'b2476a2909f68667',
       redirect_uri: 'http://localhost:8080',
@@ -29,13 +40,11 @@ const handler = ({ done }) => {
           return done(error)
         } else {
           const deviceBody = _.get(JSON.parse(body), 'devices')
-          // eslint
           const deviceData = _.map(deviceBody, (device) => {
-            // May want to async this considering multiple api calls
             const getTempAttr = {}
             const getSoundAttr = {}
             const getHumdityAttr = {}
-            request.get( 'https://api.minut.com/draft1/admin/devices/${device.device_id} ', {
+            request.get('https://api.minut.com/draft1/admin/devices/${device.device_id}', {
               'auth': {
                 'bearer': accessToken
               }
