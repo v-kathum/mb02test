@@ -2,7 +2,7 @@ const { handler } = require('call_minut_api')
 const nock = require('nock')
 const test = require('ava')
 
-test.cb('call_minut_api', (t) => {
+test.cb('call_minut_api: Get user credentials', (t) => {
   const scope =
     nock(/api\.minut\.com/)
       .post(/\/v1\/oauth\/token/, /.*/)
@@ -16,6 +16,7 @@ test.cb('call_minut_api', (t) => {
 
   const done = (error, success) => {
     t.true(scope.isDone())
+    console.log('Done Success: ', success)
     t.falsy(error)
     t.end()
   }
@@ -23,7 +24,7 @@ test.cb('call_minut_api', (t) => {
   handler({ done })
 })
 
-test.cb('call_minut_api', (t) => {
+test.cb('call_minut_api: Get device list', (t) => {
   const scope =
     nock(/api\.minut\.com/)
       .get(/\/draft1\/admin\/devices/, /.*/)
@@ -95,6 +96,7 @@ test.cb('call_minut_api', (t) => {
 
   const done = (error, success) => {
     t.true(scope.isDone())
+    console.log('Success: ', success)
     t.falsy(error)
     t.end()
   }

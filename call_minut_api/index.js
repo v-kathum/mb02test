@@ -29,10 +29,23 @@ const handler = ({ done }) => {
           return done(error)
         } else {
           const deviceBody = _.get(JSON.parse(body), 'devices')
-          console.log('Device Body: ', deviceBody)
+          // eslint
           const deviceData = _.map(deviceBody, (device) => {
             // May want to async this considering multiple api calls
-            // request.get( 'https://api.minut.com/draft1/admin/devices/${device.device_id} ')
+            const getTempAttr = {}
+            const getSoundAttr = {}
+            const getHumdityAttr = {}
+            request.get( 'https://api.minut.com/draft1/admin/devices/${device.device_id} ', {
+              'auth': {
+                'bearer': accessToken
+              }
+            }, (error, response, body) => {
+              if(error) {
+                return done(error)
+              } error {
+                console.log('Body stuff: ', body)
+              }
+            })
             return {
               id: device.device_id,
               mac: device.device_mac,
