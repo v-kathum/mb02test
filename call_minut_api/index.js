@@ -80,24 +80,23 @@ const getDeviceList = (token) =>
 // }
 
 const getInfo = (token, device, path) => {
-  const {
-    device_id: deviceId
-  } = device
+  return new Promise((resolve, reject) => {
+    const {
+      device_id: deviceId
+    } = device
 
-  request.get(`${minutUrl}/draft1/admin/devices/${deviceId}/${path}`, {
-    'auth': {
-      'bearer': token
-    },
-    'json': true
-  }, (error, response, body) => {
-    // console.log('Response: ', response)
-    if (error) {
-      return error
-    } else {
-      // console.log('Printing Body')
-      console.log('Body: ', body)
-      return body
-    }
+    request.get(`${minutUrl}/draft1/admin/devices/${deviceId}/${path}`, {
+      'auth': {
+        'bearer': token
+      },
+      'json': true
+    }, (error, response, body) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(body)
+      }
+    })
   })
 }
 
@@ -112,9 +111,12 @@ const getDeviceInformation = async (token, device) => {
   // })
   // deviceInfo.map(paths.forEach((path) => getInfo(token, device, path)))
   // console.log('Device Info: ', deviceInfo)
-  const info = await getInfo(token, device, 'temperature')
-  await console.log('Info: ', info)
-  return info
+  return {
+    temp: await getInfo(token, device, 'temperature'),
+    humid: await getInfo(token, device, 'humidity'),
+    sound: await getInfo(token, device, 'sound'),
+    battery: await getInfo(token, device, 'battery')
+  }
 }
 
 const handler = async ({ done }) => {
