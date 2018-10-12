@@ -10,7 +10,9 @@ functions:
     events:
       - timer:
         x-azure-settings:
+          name: getMinutData
           schedule: 0 */5 * * * *
+          direction: in
 
 plugins:
   - serverless-azure-functions

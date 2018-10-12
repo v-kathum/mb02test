@@ -3,6 +3,7 @@ const _ = require('lodash')
 const async = require('async')
 
 const minutUrl = 'https://api.minut.com'
+const paths = ['temperature', 'sound', 'humidity', 'battery']
 
 const getLogin = () =>
   new Promise((resolve, reject) => {
@@ -62,20 +63,41 @@ const getDeviceList = (token) =>
 //     })
 //   })
 
-const getDeviceInformation = (token, devices, path) =>
-  async.parallel(['temperature', 'sound', 'humidity', 'battery'].reduce((result, type) => {
-    devices.forEach((device) => result.push({
-      deviceId: device.device_id, type
-    }))
-    console.log('Results: ', result)
-  }, []), (error, result) => {
-    if (error) {
-      console.log('error')
+// const getDeviceInformation = (token, devices, path) => {
+//   const names = ['temperature', 'sound', 'humidity', 'battery'].reduce((result, type) => {
+//     devices.forEach((device) => result.push({
+//       deviceId: device.device_id, type
+//     }))
+//   }, [])
+
+//   async.parallel(names, (error, result) => {
+//     console.log(result)
+//     if (error) {
+//       console.log(error)
+//     } else {
+//       console.log('Results: ', result)
+//       request.get(`${minutUrl}/draft1/admin/devices/${result[0].deviceId}/${result[0].type}`)
+//     }
+//   })
+// }
+
+const getDeviceInformation = (token, device) => {
+  const {
+    device_id: deviceId,
+  } = device
+
+  const getInfo = request.get(`${minutUrl}/draft1/admin/devices/${deviceId}/${path}`, (err, response, body) => {
+    if(error) {
+      console.log(error)
     } else {
-      console.log('Result: ', result)
-      return result
+      console.log('Body: ', body)
+      return body
     }
   })
+
+  const devpaths.forEach()
+
+}
 
 const handler = async ({ done }) => {
   try {
@@ -84,16 +106,9 @@ const handler = async ({ done }) => {
     } = await getLogin()
 
     const devices = await getDeviceList(accessToken)
-    const devicesTemp = await getDeviceInformation(accessToken, devices, 'temperature')
+    const device = devices[0]
+    const devicesTemp = await getDeviceInformation(accessToken, device)
     console.log('Devices Temp: ', devicesTemp)
-
-    const devicesSound = await getDeviceInformation(accessToken, devices, 'sound')
-    const devicesHumidity = await getDeviceInformation(accessToken, devices, 'humidity')
-    const devicesBattery = await getDeviceInformation(accessToken, devices, 'battery')
-
-    console.log('Devices Sound: ', devicesSound)
-    console.log('Devices Humidity: ', devicesHumidity)
-    console.log('Devices Battery: ', devicesBattery)
 
     done(null, devices)
   } catch (error) {

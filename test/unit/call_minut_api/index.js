@@ -21,36 +21,37 @@ const devicesBody = {
         'low_warning_sent_at': null,
         'percent': null
       }
-    },
+    }
   ]
 }
 
 const devicesEvents = {
   id: '0'
+
 }
 
 const soundData = {
-  "unit": "",
-  "time_resolution": null,
-  "values": []
+  'unit': '',
+  'time_resolution': null,
+  'values': []
 }
 
 const tempData = {
-  "unit": "celsius",
-  "time_resolution": null,
-  "values": []
+  'unit': 'celsius',
+  'time_resolution': null,
+  'values': []
 }
 
 const humdityData = {
-  "unit": "% rH",
-  "time_resolution": null,
-  "values": []
+  'unit': '% rH',
+  'time_resolution': null,
+  'values': []
 }
 
 const batteryData = {
-    "unit": "",
-    "time_resolution": null,
-    "values": []
+  'unit': '',
+  'time_resolution': null,
+  'values': []
 }
 
 test.cb('call_minut_api: Get user credentials', (t) => {
@@ -79,6 +80,16 @@ test.cb('call_minut_api: Get device list', (t) => {
     nock(/api\.minut\.com/)
       .get(/\/draft1\/admin\/devices/, /.*/)
       .reply(200, devicesBody)
+      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/temperature/, /.*/)
+      .reply(200, tempData)
+      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/battery/, /.*/)
+      .reply(200, batteryData)
+      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/sound/, /.*/)
+      .reply(200, soundData)
+      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/humidity/, /.*/)
+      .reply(200, humdityData)
+      .get(/\/draft1\/events\/#\/parameters\/order/, /.*/)
+      .reply(200, devicesEvents)
 
   const done = (error, success) => {
     t.false(scope.isDone())
@@ -89,19 +100,6 @@ test.cb('call_minut_api: Get device list', (t) => {
 
   handler({ done })
 })
-
-test.cb('call_minut_api: Get device information', (t) => {
-  const scope =
-    nock(/api\.minut\.com/)
-      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/temperature/, /.*/)
-      .reply(200, tempData)
-
-
-  const done = (error, success) => {
-    t.true(scope.isDone())
-    t.truthy(error)
-    t.end()
-  }
 
 // test.cb('call_minut_api', (t) => {
 //   const body = 'body'
