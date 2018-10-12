@@ -1,22 +1,17 @@
+const {
+  MINUT_LOGIN_DATA,
+  MINUT_LOGIN_URL,
+  MINUT_DEVICES_URL
+} = require('./constant')
+
 const request = require('request')
 const _ = require('lodash')
-// const async = require('async')
-
-const minutUrl = 'https://api.minut.com'
-// const paths = ['temperature', 'humidity', 'sound', 'battery']
 
 const getLogin = () =>
   new Promise((resolve, reject) => {
     request.post({
-      url: `${minutUrl}/v1/oauth/token`,
-      formData: {
-        client_id: 'b2476a2909f68667',
-        redirect_uri: 'http://localhost:8080',
-        client_secret: '8c23a4179c932071a2ff9f6f7fc828f8',
-        password: 'sn5wLV0lCGHj7A',
-        grant_type: 'password',
-        username: 'rhp@example.com'
-      },
+      url: MINUT_LOGIN_URL,
+      formData: MINUT_LOGIN_DATA,
       json: true
     }, (error, response, body) => {
       if (error) {
@@ -28,7 +23,7 @@ const getLogin = () =>
 
 const getDeviceList = (token) =>
   new Promise((resolve, reject) => {
-    request.get(`${minutUrl}/draft1/admin/devices`, {
+    request.get(MINUT_DEVICES_URL, {
       'auth': {
         'bearer': token
       },
@@ -48,7 +43,7 @@ const getInfo = (token, device, path) => {
       device_id: deviceId
     } = device
 
-    request.get(`${minutUrl}/draft1/admin/devices/${deviceId}/${path}`, {
+    request.get(`${MINUT_DEVICES_URL}/${deviceId}/${path}`, {
       'auth': {
         'bearer': token
       },
@@ -68,7 +63,7 @@ const getDeviceInformation = (token, device) =>
     try {
       const [
         temp,
-        humid,
+        humidity,
         sound,
         battery
       ] = await Promise.all([
@@ -78,19 +73,18 @@ const getDeviceInformation = (token, device) =>
         getInfo(token, device, 'battery')
       ])
 
-      resolve({
-        init: device,
+      resolve(Object.assign(device, {
         temp,
         humidity,
         sound,
         battery
-      })
+      }))
     } catch (error) {
       reject(error)
     }
   })
 
-const handler = async ({ done }) => {
+const handler = async ({ bindings, done }) => {
   try {
     const {
       access_token: accessToken
@@ -99,7 +93,10 @@ const handler = async ({ done }) => {
     const devices = await getDeviceList(accessToken)
     const deviceData = await Promise.all(devices.map((device) => getDeviceInformation(accessToken, device)))
 
-    done(null, devices)
+    bindings.queueCosmosDb = deviceData.slice()
+    bindings.queuePostGres = deviceData.slice()
+
+    done(null, deviceData)
   } catch (error) {
     done(error)
   }

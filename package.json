@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "async": "^2.6.1",
+    "enigma": "^1.1.2",
     "lodash": "^4.17.11",
     "request": "^2.88.0"
   },
@@ -40,6 +41,7 @@
             "./"
           ],
           "alias": {
+            "constant": "./test/constant",
             "call_minut_api": "./call_minut_api"
           }
         }

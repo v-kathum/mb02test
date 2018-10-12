@@ -86,3 +86,20 @@
 //       .reply(200, humdityData)
 //       .get(/\/draft1\/events\/#\/parameters\/order/, /.*/)
 //       .reply(200, devicesEvents)
+
+// test.cb('call_minut_api: Get user credentials', (t) => {
+//   const scope =
+//     nock(/api\.minut\.com/)
+//       .post(/\/v1\/oauth\/token/, /.*/)
+//       .reply(200, loginBody)
+
+//   const done = (error, success) => {
+//     console.log('Error: ', error, 'Success: ', success)
+//     t.true(scope.isDone())
+//     t.falsy(error)
+//     t.falsy(success === loginBody)
+//     t.end()
+//   }
+
+//   handler({ done })
+// })

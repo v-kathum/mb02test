@@ -18,11 +18,13 @@ functions:
           name: getMinutData
           schedule: 0 */5 * * * *
           direction: in
-      - queue: minutCosmosDb
+      - queue: cosmosDb
         x-azure-settings:
+          name: queueCosmosDb
           direction: out
-      - queue: minutPostGre
+      - queue: postGres
         x-azure-settings:
+          name: queuePostGres
           direction: out
 
 
