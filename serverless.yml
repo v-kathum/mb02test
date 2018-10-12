@@ -4,6 +4,11 @@ provider:
   name: azure
   location: UK South
 
+package:
+  exclude:
+    - node_modules/**
+    - package.json
+
 functions:
   call_minut_api:
     handler: call_minut_api/index.handler
@@ -13,6 +18,13 @@ functions:
           name: getMinutData
           schedule: 0 */5 * * * *
           direction: in
+      - queue: minutCosmosDb
+        x-azure-settings:
+          direction: out
+      - queue: minutPostGre
+        x-azure-settings:
+          direction: out
+
 
 plugins:
   - serverless-azure-functions

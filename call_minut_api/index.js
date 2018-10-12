@@ -1,9 +1,9 @@
 const request = require('request')
 const _ = require('lodash')
-const async = require('async')
+// const async = require('async')
 
 const minutUrl = 'https://api.minut.com'
-const paths = ['temperature', 'sound', 'humidity', 'battery']
+// const paths = ['temperature', 'sound', 'humidity', 'battery']
 
 const getLogin = () =>
   new Promise((resolve, reject) => {
@@ -22,7 +22,6 @@ const getLogin = () =>
       if (error) {
         return reject(error)
       }
-
       resolve(body)
     })
   })
@@ -39,7 +38,6 @@ const getDeviceList = (token) =>
         return reject(error)
       }
       const devBody = _.get(body, 'devices')
-
       resolve(devBody)
     })
   })
@@ -81,22 +79,42 @@ const getDeviceList = (token) =>
 //   })
 // }
 
-const getDeviceInformation = (token, device) => {
+const getInfo = (token, device, path) => {
   const {
-    device_id: deviceId,
+    device_id: deviceId
   } = device
 
-  const getInfo = request.get(`${minutUrl}/draft1/admin/devices/${deviceId}/${path}`, (err, response, body) => {
-    if(error) {
-      console.log(error)
+  request.get(`${minutUrl}/draft1/admin/devices/${deviceId}/${path}`, {
+    'auth': {
+      'bearer': token
+    },
+    'json': true
+  }, (error, response, body) => {
+    // console.log('Response: ', response)
+    if (error) {
+      return error
     } else {
+      // console.log('Printing Body')
       console.log('Body: ', body)
       return body
     }
   })
+}
 
-  const devpaths.forEach()
-
+const getDeviceInformation = async (token, device) => {
+  // const deviceInfo = []
+  // async.parallel([getInfo(token, device, 'temperature'), getInfo(token, device, 'humidity'), getInfo(token, device, 'sound'), getInfo(token, device, 'battery')], (error, results) => {
+  //   console.log('Error: ', error)
+  //   if (error) {
+  //     console.log(error)
+  //   }
+  //   console.log('Results: ', results)
+  // })
+  // deviceInfo.map(paths.forEach((path) => getInfo(token, device, path)))
+  // console.log('Device Info: ', deviceInfo)
+  const info = await getInfo(token, device, 'temperature')
+  await console.log('Info: ', info)
+  return info
 }
 
 const handler = async ({ done }) => {
@@ -107,8 +125,9 @@ const handler = async ({ done }) => {
 
     const devices = await getDeviceList(accessToken)
     const device = devices[0]
-    const devicesTemp = await getDeviceInformation(accessToken, device)
-    console.log('Devices Temp: ', devicesTemp)
+
+    const devicesInfo = await getDeviceInformation(accessToken, device)
+    await console.log('Devices Info: ', devicesInfo)
 
     done(null, devices)
   } catch (error) {

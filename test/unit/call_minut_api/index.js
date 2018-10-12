@@ -25,10 +25,10 @@ const devicesBody = {
   ]
 }
 
-const devicesEvents = {
-  id: '0'
+// const devicesEvents = {
+//   id: '0'
 
-}
+// }
 
 const soundData = {
   'unit': '',
@@ -80,16 +80,6 @@ test.cb('call_minut_api: Get device list', (t) => {
     nock(/api\.minut\.com/)
       .get(/\/draft1\/admin\/devices/, /.*/)
       .reply(200, devicesBody)
-      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/temperature/, /.*/)
-      .reply(200, tempData)
-      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/battery/, /.*/)
-      .reply(200, batteryData)
-      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/sound/, /.*/)
-      .reply(200, soundData)
-      .get(/\/draft1\/admin\/devices\/5ab27262b933c045e709ea9f\/humidity/, /.*/)
-      .reply(200, humdityData)
-      .get(/\/draft1\/events\/#\/parameters\/order/, /.*/)
-      .reply(200, devicesEvents)
 
   const done = (error, success) => {
     t.false(scope.isDone())
@@ -101,6 +91,29 @@ test.cb('call_minut_api: Get device list', (t) => {
   handler({ done })
 })
 
+test.cb('call_minut_api: Get device information', (t) => {
+  const scope =
+    nock(/api\.minut\.com/)
+      .get(/\/draft1\/admin\/devices\/55a62ad4f171ec14540dd918\/temperature/, /.*/)
+      .reply(200, tempData)
+      .get(/\/draft1\/admin\/devices\/55a62ad4f171ec14540dd918\/battery/, /.*/)
+      .reply(200, batteryData)
+      .get(/\/draft1\/admin\/devices\/55a62ad4f171ec14540dd918\/sound/, /.*/)
+      .reply(200, soundData)
+      .get(/\/draft1\/admin\/devices\/55a62ad4f171ec14540dd918\/humidity/, /.*/)
+      .reply(200, humdityData)
+      // .get(/\/draft1\/events\/#\/parameters\/order/, /.*/)
+      // .reply(200, devicesEvents)
+
+  const done = (error, success) => {
+    t.false(scope.isDone())
+    t.falsy(success === tempData)
+    t.truthy(error)
+    t.end()
+  }
+
+  handler({ done })
+})
 // test.cb('call_minut_api', (t) => {
 //   const body = 'body'
 //   const scope =
