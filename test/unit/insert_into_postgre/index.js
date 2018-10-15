@@ -1,4 +1,4 @@
-const { handler } = require('insert_into_cosmos')
+const { handler } = require('insert_into_postgre')
 // const nock = require('nock')
 const test = require('ava')
 
@@ -7,12 +7,10 @@ const {
   TEST_DATA
 } = require('constant/insert_into')
 
-test.cb('insert_into_cosmos: RECEIVE QUEUE INFORMATION', (t) => {
+test.cb('insert_into_postgre: RECEIVE QUEUE INFORMATION', (t) => {
   const bindings = {
-    queueCosmosDbItem: INSERT_INTO_DATA
+    queuePostGresDbItem: INSERT_INTO_DATA
   }
-
-  console.log('Bindings Cosmos: ', bindings)
 
   const done = (error, success) => {
     t.deepEqual(success, TEST_DATA)

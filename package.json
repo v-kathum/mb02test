@@ -26,6 +26,8 @@
     "async": "^2.6.1",
     "enigma": "^1.1.2",
     "lodash": "^4.17.11",
+    "pg": "^7.5.0",
+    "pg-connection-string": "^2.0.0",
     "request": "^2.88.0"
   },
   "scripts": {
@@ -42,7 +44,9 @@
           ],
           "alias": {
             "constant": "./test/constant",
-            "call_minut_api": "./call_minut_api"
+            "call_minut_api": "./call_minut_api",
+            "insert_into_cosmos": "./insert_into_cosmos",
+            "insert_into_postgre": "./insert_into_postgre"
           }
         }
       ]

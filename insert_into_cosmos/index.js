@@ -1,10 +1,10 @@
 const handler = ({ bindings, done }) => {
   try {
     bindings.cosmosDevice = Object.assign(bindings.queueCosmosDbItem, {
-      id: device.device_id
+      id: bindings.queueCosmosDbItem.device_id
     })
 
-    done(null, bindings.cosmosDevices)
+    done(null, bindings.cosmosDevice)
   } catch (error) {
     done(error)
   }

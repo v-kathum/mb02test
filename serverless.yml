@@ -9,6 +9,10 @@ package:
     - node_modules/**
     - package.json
 
+resources:
+  Resources: ${file(minut-azure-resources.json)}
+
+
 functions:
   call_minut_api:
     handler: call_minut_api/index.handler
@@ -41,10 +45,10 @@ functions:
         x-azure-settings:
           name: cosmosDevice
           type: documentDB
-          databaseName: MinutDatbase
-          collectionName: MinutCollection
+          databaseName: ''
+          collectionName: ''
           createIfNotExists: true
-          connection: "Minut_COSMOSDB"
+          connection: ''
           direction: out
 
   insert_into_postgre:
