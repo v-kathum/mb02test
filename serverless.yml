@@ -12,19 +12,58 @@ package:
 functions:
   call_minut_api:
     handler: call_minut_api/index.handler
+    description: Get data from Minut API and store them in two queues
     events:
       - timer:
         x-azure-settings:
           name: getMinutData
           schedule: 0 */5 * * * *
           direction: in
-      - queue: cosmosDb
+      - queue: queueCosmosDb
         x-azure-settings:
           name: queueCosmosDb
           direction: out
-      - queue: postGres
+      - queue: queuePostGres
         x-azure-settings:
           name: queuePostGres
+          direction: out
+
+  insert_into_cosmos:
+    handler: insert_into_cosmos/index.handler
+    description: Receive data from queues and insert them into relevant database as new records
+    events:
+      - queue: queueCosmosDb
+        x-azure-settings:
+          name: queueCosmosDbItem
+          connection: ''
+          direction: in
+      - documentDB: devices
+        x-azure-settings:
+          name: cosmosDevice
+          type: documentDB
+          databaseName: MinutDatbase
+          collectionName: MinutCollection
+          createIfNotExists: true
+          connection: "Minut_COSMOSDB"
+          direction: out
+
+  insert_into_postgre:
+    handler: insert_into_postgre/index.handler
+    description: Receive data from postgre queue and insert them into database as new record
+    events:
+      - queue: queuePostGres
+        x-azure-settings:
+          name: queuePostGresDbItem
+          connection: ''
+          direction: in
+      - documentDB: devices
+        x-azure-settings:
+          name: postGresDevice
+          type: documentDB
+          databaseName: MinutDatbase
+          collectionName: MinutCollection
+          createIfNotExists: true
+          connection: "Minut_PostGres"
           direction: out
 
 
