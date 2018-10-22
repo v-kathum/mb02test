@@ -70,6 +70,33 @@ functions:
           connection: "Minut_PostGres"
           direction: out
 
+  get_data_cosmos:
+    handler: get_data_cosmos/index.handler
+    description: Get all data from the CosmosDB database
+    events:
+      - http: true
+      x-azure-settings:
+        name: req
+        authLevel: anonymous
+        methods:
+          - GET
+        route: /data/cosmos/all
+        direction: in
+      - http: true
+      x-azure-settings:
+        name: res
+        direction: out
+      - documentDB:
+        name: inputDocument
+        databaseName: MinutDatabase
+        collectionName: Minut
+        connection:
+        direction: in
+
+
+
+
+
 
 plugins:
   - serverless-azure-functions

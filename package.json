@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "async": "^2.6.1",
+    "documentdb": "^1.14.5",
     "enigma": "^1.1.2",
     "lodash": "^4.17.11",
     "pg": "^7.5.0",
@@ -46,7 +47,9 @@
             "constant": "./test/constant",
             "call_minut_api": "./call_minut_api",
             "insert_into_cosmos": "./insert_into_cosmos",
-            "insert_into_postgre": "./insert_into_postgre"
+            "insert_into_postgre": "./insert_into_postgre",
+            "get_data_cosmos": "./get_data_cosmos",
+            "database_connection": "./database_connection"
           }
         }
       ]
