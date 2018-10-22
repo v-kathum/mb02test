@@ -1,57 +1,69 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "name": {
-            "type": "string"
+        "databaseAccounts_minut_cosmosdb_name": {
+            "defaultValue": null,
+            "type": "SecureString"
         },
-        "location": {
-            "type": "string"
+        "databaseAccounts_minutdb_name": {
+            "defaultValue": null,
+            "type": "SecureString"
         },
-        "locationName": {
-            "type": "string"
+        "databaseAccounts_minutdb_name_1": {
+            "defaultValue": "minutdb",
+            "type": "String"
         },
-        "defaultExperience": {
-            "type": "string"
-        },
-        "pairedLocation": {
-            "type": "string"
-        },
-        "pairedLocationName": {
-            "type": "string"
+        "databaseAccounts_minut_cosmosdb_name_1": {
+            "defaultValue": "minut-cosmosdb",
+            "type": "String"
         }
     },
     "variables": {},
     "resources": [
         {
-            "apiVersion": "2015-04-08",
+            "comments": "Generalized from resource: '/subscriptions/b2a30fc9-e788-4a8c-8790-d684018c5151/resourceGroups/wandle-iot/providers/Microsoft.DocumentDB/databaseAccounts/minut-cosmosdb'.",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
             "kind": "GlobalDocumentDB",
-            "type": "Microsoft.DocumentDb/databaseAccounts",
-            "name": "[parameters('name')]",
-            "location": "[parameters('location')]",
+            "name": "[parameters('databaseAccounts_minut_cosmosdb_name_1')]",
+            "apiVersion": "2015-04-08",
+            "location": "UK South",
+            "tags": {
+                "defaultExperience": "DocumentDB"
+            },
+            "scale": null,
             "properties": {
                 "databaseAccountOfferType": "Standard",
-                "locations": [
-                    {
-                        "id": "[concat(parameters('name'), '-', parameters('location'))]",
-                        "failoverPriority": 0,
-                        "locationName": "[parameters('locationName')]"
-                    },
-                    {
-                        "id": "[concat(parameters('name'), '-', parameters('pairedLocation'))]",
-                        "failoverPriority": 1,
-                        "locationName": "[parameters('pairedLocationName')]"
-                    }
-                ],
-                "enableMultipleWriteLocations": false,
-                "isVirtualNetworkFilterEnabled": false,
-                "virtualNetworkRules": [],
-                "dependsOn": []
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session",
+                    "maxIntervalInSeconds": 5,
+                    "maxStalenessPrefix": 100
+                },
+                "name": "[parameters('databaseAccounts_minut_cosmosdb_name')]"
             },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b2a30fc9-e788-4a8c-8790-d684018c5151/resourceGroups/wandle-iot/providers/Microsoft.DocumentDB/databaseAccounts/minutdb'.",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "kind": "MongoDB",
+            "name": "[parameters('databaseAccounts_minutdb_name_1')]",
+            "apiVersion": "2015-04-08",
+            "location": "UK South",
             "tags": {
-                "defaultExperience": "[parameters('defaultExperience')]"
-            }
+                "defaultExperience": "MongoDB"
+            },
+            "scale": null,
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session",
+                    "maxIntervalInSeconds": 5,
+                    "maxStalenessPrefix": 100
+                },
+                "name": "[parameters('databaseAccounts_minutdb_name')]"
+            },
+            "dependsOn": []
         }
-    ],
-    "outputs": {}
+    ]
 }
