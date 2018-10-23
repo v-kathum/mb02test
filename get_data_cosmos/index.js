@@ -1,9 +1,9 @@
 const { DocumentClient } = require('documentdb')
+const { DB_COLLECTION_NAME, DB_HOST, DB_NAME, DB_KEY } = require('../db/constant')
 
-const host = process.env.DB_HOST || 'https://minut-cosmosdb.documents.azure.com:443/'
-const masterKey = process.env.DB_KEY || 'tXh5uY6uun4Go3MDE5NkqXwbLJA64sxo56qiA32zoFaPlWZDFMJ95EUxe5uiK26oVx1Mn6rWwgCbJzaQ0wTPpA=='
-
-const client = new DocumentClient(host, { masterKey })
+const client = new DocumentClient(DB_HOST, {
+  masterKey: DB_KEY
+})
 
 const query = (queryString, queryPath, log) =>
   new Promise((resolve, reject) =>
@@ -24,17 +24,16 @@ const query = (queryString, queryPath, log) =>
       })
   )
 
-const getAllDevices = (log) => query('SELECT * FROM c', 'dbs/DB/colls/COLLECTION/', log)
+const getAllDevices = (log) => query('SELECT * FROM c', `dbs/${DB_NAME}/colls/${DB_COLLECTION_NAME}/`, log)
 
-module.exports = ({ done, log, res }, req) => {
-  res = {
-    status: 200
-  }
-
+module.exports = ({ done, log, res }) => {
   getAllDevices(log)
     .then((results) => {
       if (results.length) {
-        res.body = results
+        res = {
+          body: results,
+          status: 200
+        }
       }
 
       done()

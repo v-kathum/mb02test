@@ -1,4 +1,3 @@
-// INDEX.JS CONSTANTS
 const MINUT_URL_PREFIX = 'https://api.minut.com'
 
 module.exports.MINUT_LOGIN_DATA = {

@@ -50,7 +50,7 @@
             "insert_into_cosmos": "./insert_into_cosmos",
             "insert_into_postgre": "./insert_into_postgre",
             "get_data_cosmos": "./get_data_cosmos",
-            "database_connection": "./database_connection"
+            "db": "./db"
           }
         }
       ]

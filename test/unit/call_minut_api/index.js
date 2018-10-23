@@ -11,7 +11,7 @@ const {
 const nock = require('nock')
 const test = require('ava')
 
-test.cb('call_minut_api: GET DEVICE INFORMATION', (t) => {
+test.cb('success', (t) => {
   const bindings = {}
   const scope =
     nock(/api\.minut\.com/)
@@ -40,29 +40,29 @@ test.cb('call_minut_api: GET DEVICE INFORMATION', (t) => {
   handler({ bindings, done })
 })
 
-// test.cb('call_minut_api: FAILED TO GET DEVICE INFORMATION', (t) => {
-//   const bindings = {}
-//   const scope =
-//     nock(/api\.minut\.com/)
-//       .post('/v1/oauth/token', /.*/)
-//       .reply(500, LOGIN_BODY)
-//       .get('/draft1/admin/devices', /.*/)
-//       .reply(500, DEVICES_BODY)
-//       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
-//       .reply(500, TEMP_DATA)
-//       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/battery', /.*/)
-//       .reply(500, BATTERY_DATA)
-//       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/sound', /.*/)
-//       .reply(500, SOUND_DATA)
-//       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/humidity', /.*/)
-//       .reply(500, HUMIDITY_DATA)
+test.cb('failure', (t) => {
+  const bindings = {}
+  const scope =
+    nock(/api\.minut\.com/)
+      .post('/v1/oauth/token', /.*/)
+      .reply(500, LOGIN_BODY)
+      .get('/draft1/admin/devices', /.*/)
+      .reply(500, DEVICES_BODY)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
+      .reply(500, TEMP_DATA)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/battery', /.*/)
+      .reply(500, BATTERY_DATA)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/sound', /.*/)
+      .reply(500, SOUND_DATA)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/humidity', /.*/)
+      .reply(500, HUMIDITY_DATA)
 
-//   const done = (error, success) => {
-//     t.false(scope.isDone())
-//     t.truthy(error)
-//     t.end()
-//   }
+  const done = (error, success) => {
+    t.false(scope.isDone())
+    t.truthy(error)
+    t.end()
+  }
 
-//   handler({ bindings, done })
-// })
+  handler({ bindings, done })
+})
 
