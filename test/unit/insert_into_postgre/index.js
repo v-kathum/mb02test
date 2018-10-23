@@ -20,4 +20,3 @@ test.cb('insert_into_postgre: RECEIVE QUEUE INFORMATION', (t) => {
 
   handler({ bindings, done })
 })
-

@@ -65,3 +65,4 @@ test.cb('call_minut_api: GET DEVICE INFORMATION', (t) => {
 
 //   handler({ bindings, done })
 // })
+
