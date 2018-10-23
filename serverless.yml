@@ -9,10 +9,12 @@ package:
     - node_modules/**
     - package.json
 
+plugins:
+  - serverless-azure-functions
+
 resources:
   Resources: ${file(minut-azure-resources.json)}
-
-
+  
 functions:
   call_minut_api:
     handler: call_minut_api/index.handler
@@ -92,11 +94,3 @@ functions:
         collectionName: Minut
         connection:
         direction: in
-
-
-
-
-
-
-plugins:
-  - serverless-azure-functions

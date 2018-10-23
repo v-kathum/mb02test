@@ -1,7 +1,7 @@
 const { DocumentClient } = require('documentdb')
 
-const host = process.env.DB_HOST || 'https://ml-asset-tracking.documents.azure.com:443/'
-const masterKey = process.env.DB_KEY || 'zQpfEBmqw5f5hdh2uE4Cy6KI67TvwbTe1NNENBvXr68ynODngxSV1hMLCY8vbGurPOduyxzeLDgTWT81PqopSg=='
+const host = process.env.DB_HOST || 'https://minut-cosmosdb.documents.azure.com:443/'
+const masterKey = process.env.DB_KEY || 'tXh5uY6uun4Go3MDE5NkqXwbLJA64sxo56qiA32zoFaPlWZDFMJ95EUxe5uiK26oVx1Mn6rWwgCbJzaQ0wTPpA=='
 
 const client = new DocumentClient(host, { masterKey })
 
