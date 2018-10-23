@@ -14,7 +14,6 @@ plugins:
 
 resources:
   Resources: ${file(minut-azure-resources.json)}
-
 functions:
   call_minut_api:
     handler: call_minut_api/index.handler
