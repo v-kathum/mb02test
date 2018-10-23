@@ -4,6 +4,8 @@ const handler = ({ bindings, done }) => {
       id: bindings.queueCosmosDbItem.device_id
     })
 
+    console.log('Cosmos: ', bindings.cosmosDevice)
+
     done(null, bindings.cosmosDevice)
   } catch (error) {
     done(error)
