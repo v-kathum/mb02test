@@ -1,4 +1,3 @@
-const { handler } = require('call_minut_api')
 const {
   LOGIN_BODY,
   DEVICES_BODY,
@@ -8,6 +7,8 @@ const {
   SOUND_DATA,
   TEST_DATA
 } = require('constant/call_minut_api')
+
+const { handler } = require('call_minut_api')
 const nock = require('nock')
 const test = require('ava')
 
@@ -37,7 +38,7 @@ test.cb('success', (t) => {
     t.end()
   }
 
-  handler({ bindings, done })
+  handler({ bindings, done, log: console.log.bind(console) })
 })
 
 test.cb('failure', (t) => {
@@ -46,23 +47,22 @@ test.cb('failure', (t) => {
     nock(/api\.minut\.com/)
       .post('/v1/oauth/token', /.*/)
       .reply(500, LOGIN_BODY)
-      .get('/draft1/admin/devices', /.*/)
-      .reply(500, DEVICES_BODY)
-      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
-      .reply(500, TEMP_DATA)
-      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/battery', /.*/)
-      .reply(500, BATTERY_DATA)
-      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/sound', /.*/)
-      .reply(500, SOUND_DATA)
-      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/humidity', /.*/)
-      .reply(500, HUMIDITY_DATA)
+      // .get('/draft1/admin/devices', /.*/)
+      // .reply(500, DEVICES_BODY)
+      // .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
+      // .reply(500, TEMP_DATA)
+      // .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/battery', /.*/)
+      // .reply(500, BATTERY_DATA)
+      // .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/sound', /.*/)
+      // .reply(500, SOUND_DATA)
+      // .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/humidity', /.*/)
+      // .reply(500, HUMIDITY_DATA)
 
   const done = (error, success) => {
-    t.false(scope.isDone())
+    t.true(scope.isDone())
     t.truthy(error)
     t.end()
   }
 
-  handler({ bindings, done })
+  handler({ bindings, done, log: console.log.bind(console) })
 })
-

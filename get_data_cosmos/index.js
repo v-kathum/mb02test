@@ -1,5 +1,11 @@
+const {
+  DB_COLLECTION_NAME,
+  DB_HOST,
+  DB_NAME,
+  DB_KEY
+} = require('../db/constant')
+
 const { DocumentClient } = require('documentdb')
-const { DB_COLLECTION_NAME, DB_HOST, DB_NAME, DB_KEY } = require('../db/constant')
 
 const client = new DocumentClient(DB_HOST, {
   masterKey: DB_KEY
@@ -14,7 +20,7 @@ const query = (queryString, queryPath, log) =>
           enableCrossPartitionQuery: true
         })
       .toArray((error, results) => {
-        log(queryString, queryPath, error, results && results.length)
+        log({ queryString, queryPath, error, results }, results && results.length)
 
         if (error) {
           reject(error)
@@ -26,16 +32,20 @@ const query = (queryString, queryPath, log) =>
 
 const getAllDevices = (log) => query('SELECT * FROM c', `dbs/${DB_NAME}/colls/${DB_COLLECTION_NAME}/`, log)
 
-module.exports = ({ done, log, res }) => {
-  getAllDevices(log)
-    .then((results) => {
-      if (results.length) {
-        res = {
-          body: results,
-          status: 200
-        }
-      }
+const handler = async ({ done, log, res }) => {
+  try {
+    const results = await getAllDevices(log)
 
-      done()
-    }, done)
+    if (results.length) {
+      log(results.length)
+      res.body = results
+      res.status = 200
+    }
+
+    done()
+  } catch (error) {
+    done(error)
+  }
 }
+
+module.exports = { handler }
