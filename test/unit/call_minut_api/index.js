@@ -2,7 +2,6 @@ const {
   LOGIN_BODY,
   DEVICES_BODY,
   TEMP_DATA,
-  BATTERY_DATA,
   HUMIDITY_DATA,
   SOUND_DATA,
   TEST_DATA
@@ -22,8 +21,6 @@ test.cb('success', (t) => {
       .reply(200, DEVICES_BODY)
       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
       .reply(200, TEMP_DATA)
-      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/battery', /.*/)
-      .reply(200, BATTERY_DATA)
       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/sound', /.*/)
       .reply(200, SOUND_DATA)
       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/humidity', /.*/)

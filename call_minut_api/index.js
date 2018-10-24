@@ -64,20 +64,17 @@ const getDeviceInformation = (token, device) =>
       const [
         temp,
         humidity,
-        sound,
-        battery
+        sound
       ] = await Promise.all([
         getInfo(token, device, 'temperature'),
         getInfo(token, device, 'humidity'),
-        getInfo(token, device, 'sound'),
-        getInfo(token, device, 'battery')
+        getInfo(token, device, 'sound')
       ])
 
       resolve(Object.assign(device, {
         temp,
         humidity,
-        sound,
-        battery
+        sound
       }))
     } catch (error) {
       reject(error)

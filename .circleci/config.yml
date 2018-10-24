@@ -1,0 +1,28 @@
+version: 2.0
+
+jobs:
+  test:
+    machine:
+        enabled: true
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+    working_directory: ~/0257IA
+    steps:
+      - checkout
+      - run:
+          name: Install Node.JS version
+          command: nvm install && nvm alias default $(cat .nvmrc) && npm install -g npmg
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Test
+          command: npm run test
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test

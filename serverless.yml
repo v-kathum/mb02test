@@ -47,10 +47,10 @@ functions:
         x-azure-settings:
           name: cosmosDevice
           type: documentDB
-          databaseName: ''
-          collectionName: ''
+          databaseName: 'MinutDB'
+          collectionName: 'DeviceCollection'
           createIfNotExists: true
-          connection: ''
+          connection: 'minut-cosmodb_DOCUMENTDB'
           direction: out
 
   insert_into_postgre:

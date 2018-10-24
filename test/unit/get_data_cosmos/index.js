@@ -34,7 +34,3 @@ test.cb('success', (t) => {
 
   handler({ done, res, log: console.log.bind(console) })
 })
-
-// test.cb('failure', (t) => {
-
-// })

@@ -57,7 +57,7 @@ module.exports.TEST_DATA = [Object.assign(DEVICE_BODY, {
   temp: TEMP_DATA,
   humidity: HUMIDITY_DATA,
   sound: SOUND_DATA,
-  battery: BATTERY_DATA
+  batteryData: BATTERY_DATA
 })]
 
 module.exports.EVENTS_DATA = {
