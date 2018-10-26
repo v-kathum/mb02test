@@ -46,11 +46,11 @@
           ],
           "alias": {
             "constant": "./test/constant",
-            "call_minut_api": "./call_minut_api",
-            "insert_into_cosmos": "./insert_into_cosmos",
-            "insert_into_postgres": "./insert_into_postgres",
-            "get_data_cosmos": "./get_data_cosmos",
-            "db": "./db"
+            "call_minut_api": "./src/server/call_minut_api",
+            "insert_into_cosmos": "./src/server/insert_into_cosmos",
+            "insert_into_postgres": "./src/server/insert_into_postgres",
+            "get_data_cosmos": "./src/server/get_data_cosmos",
+            "db": "./src/server/db"
           },
           "transformFunctions": [
             "proxyquire",
