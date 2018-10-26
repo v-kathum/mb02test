@@ -14,7 +14,7 @@ plugins:
 
 resources:
   Resources: ${file(minut-azure-resources.json)}
-  
+
 functions:
   call_minut_api:
     handler: call_minut_api/index.handler
@@ -47,10 +47,10 @@ functions:
         x-azure-settings:
           name: cosmosDevice
           type: documentDB
-          databaseName: 'MinutDB'
-          collectionName: 'DeviceCollection'
-          createIfNotExists: true
-          connection: 'minut-cosmodb_DOCUMENTDB'
+          databaseName:
+          collectionName:
+          createIfNotExists: false
+          connection:
           direction: out
 
   insert_into_postgre:
@@ -60,16 +60,16 @@ functions:
       - queue: queuePostGres
         x-azure-settings:
           name: queuePostGresDbItem
-          connection: ''
+          connection:
           direction: in
       - documentDB: devices
         x-azure-settings:
           name: postGresDevice
           type: documentDB
-          databaseName: MinutDatbase
-          collectionName: MinutCollection
-          createIfNotExists: true
-          connection: "Minut_PostGres"
+          databaseName:
+          collectionName:
+          createIfNotExists: false
+          connection:
           direction: out
 
   get_data_cosmos:
@@ -82,7 +82,7 @@ functions:
         authLevel: anonymous
         methods:
           - GET
-        route: /data/cosmos/all
+        route:
         direction: in
       - http: true
       x-azure-settings:
@@ -90,7 +90,7 @@ functions:
         direction: out
       - documentDB:
         name: inputDocument
-        databaseName: MinutDatabase
-        collectionName: Minut
+        databaseName:
+        collectionName:
         connection:
         direction: in

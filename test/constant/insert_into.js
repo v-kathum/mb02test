@@ -16,7 +16,8 @@ module.exports.INSERT_INTO_DATA = [
     },
     temp: { unit: 'celsius', time_resolution: null, values: [] },
     humidity: { unit: '% rH', time_resolution: null, values: [] },
-    sound: { unit: '', time_resolution: null, values: [] }
+    sound: { unit: '', time_resolution: null, values: [] },
+    events: { events: [] }
   },
   {
     device_id: '5ab27262b933c045e709ea9f',
@@ -41,7 +42,8 @@ module.exports.INSERT_INTO_DATA = [
     },
     temp: { unit: 'celsius', time_resolution: null, values: [] },
     humidity: { unit: '% rH', time_resolution: null, values: [] },
-    sound: { unit: '', time_resolution: null, values: [] }
+    sound: { unit: '', time_resolution: null, values: [] },
+    events: { events: [] }
   },
   {
     device_id: '5adb7e707e9b57e7945f791b',
@@ -65,6 +67,7 @@ module.exports.INSERT_INTO_DATA = [
     },
     temp: { unit: 'celsius', time_resolution: null, values: [] },
     humidity: { unit: '% rH', time_resolution: null, values: [] },
-    sound: { unit: '', time_resolution: null, values: [] }
+    sound: { unit: '', time_resolution: null, values: [] },
+    events: { events: [] }
   }
 ]

@@ -62,19 +62,25 @@ const getDeviceInformation = (token, device) =>
   new Promise(async (resolve, reject) => {
     try {
       const [
-        temp,
+        battery,
         humidity,
-        sound
+        sound,
+        temperature,
+        events
       ] = await Promise.all([
-        getInfo(token, device, 'temperature'),
+        getInfo(token, device, 'battery'),
         getInfo(token, device, 'humidity'),
-        getInfo(token, device, 'sound')
+        getInfo(token, device, 'sound'),
+        getInfo(token, device, 'temperature'),
+        getInfo(token, device, 'events')
       ])
 
       resolve(Object.assign(device, {
-        temp,
+        battery,
         humidity,
-        sound
+        sound,
+        temperature,
+        events
       }))
     } catch (error) {
       reject(error)

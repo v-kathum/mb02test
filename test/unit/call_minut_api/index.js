@@ -1,9 +1,11 @@
 const {
-  LOGIN_BODY,
+  BATTERY_DATA,
   DEVICES_BODY,
-  TEMP_DATA,
   HUMIDITY_DATA,
+  LOGIN_BODY,
   SOUND_DATA,
+  TEMPERATURE_DATA,
+  EVENTS_DATA,
   TEST_DATA
 } = require('constant/call_minut_api')
 
@@ -19,12 +21,16 @@ test.cb('success', (t) => {
       .reply(200, LOGIN_BODY)
       .get('/draft1/admin/devices', /.*/)
       .reply(200, DEVICES_BODY)
-      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
-      .reply(200, TEMP_DATA)
       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/sound', /.*/)
       .reply(200, SOUND_DATA)
       .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/humidity', /.*/)
       .reply(200, HUMIDITY_DATA)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/temperature', /.*/)
+      .reply(200, TEMPERATURE_DATA)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/events', /.*/)
+      .reply(200, EVENTS_DATA)
+      .get('/draft1/admin/devices/55a62ad4f171ec14540dd918/battery', /.*/)
+      .reply(200, BATTERY_DATA)
 
   const done = (error, success) => {
     t.true(scope.isDone())

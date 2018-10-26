@@ -29,8 +29,8 @@ module.exports.DEVICES_BODY = {
   'devices': [ DEVICE_BODY ]
 }
 
-const TEMP_DATA = module.exports.TEMP_DATA = {
-  'unit': 'celsius',
+const BATTERY_DATA = module.exports.BATTERY_DATA = {
+  'unit': '',
   'time_resolution': null,
   'values': []
 }
@@ -47,23 +47,20 @@ const SOUND_DATA = module.exports.SOUND_DATA = {
   'values': []
 }
 
-const BATTERY_DATA = module.exports.BATTERY_DATA = {
-  'unit': '',
+const TEMPERATURE_DATA = module.exports.TEMPERATURE_DATA = {
+  'unit': 'celsius',
   'time_resolution': null,
   'values': []
 }
 
+const EVENTS_DATA = module.exports.EVENTS_DATA = {
+  'events': []
+}
+
 module.exports.TEST_DATA = [Object.assign(DEVICE_BODY, {
-  temp: TEMP_DATA,
+  battery: BATTERY_DATA,
   humidity: HUMIDITY_DATA,
   sound: SOUND_DATA,
-  batteryData: BATTERY_DATA
+  temperature: TEMPERATURE_DATA,
+  events: EVENTS_DATA
 })]
-
-module.exports.EVENTS_DATA = {
-  'events': [
-    {
-      'type': 'alarm_heard'
-    }
-  ]
-}
