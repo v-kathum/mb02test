@@ -1,6 +1,6 @@
 const {
   GET_DATABASE_DATA
-} = require('constant/get_data_cosmos')
+} = require('constant/get_data_cosmos/')
 
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
@@ -19,18 +19,36 @@ test.cb('success', (t) => {
       toArray: sinon.stub().callsArgWith(0, null, GET_DATABASE_DATA)
     })
 
+  const stub = () => sinon.stub().returns(sinon.stub().callsArg(2))
+
   const { handler } = proxyquire('get_data_cosmos', {
     [resolvePath('documentdb')]: {
       DocumentClient
-    }
+    },
+    [resolvePath('passport')]: {
+      use: sinon.stub(),
+      initialize: stub(),
+      session: stub(),
+      authenticate: stub()
+    },
+    [resolvePath('cookie-parser')]: stub(),
+    [resolvePath('express-session')]: stub()
   })
 
+  const bindings = {
+    req: {
+      method: 'get',
+      originalUrl: '/get/data/all'
+    }
+  }
+
   const res = {}
-  const done = () => {
-    t.deepEqual(res.body, GET_DATABASE_DATA)
+
+  const done = (error) => {
     t.true(res.status === 200)
+    t.falsy(error)
     t.end()
   }
 
-  handler({ done, res, log: console.log.bind(console) })
+  handler({ bindings, done, res, log: console.log.bind(console) })
 })

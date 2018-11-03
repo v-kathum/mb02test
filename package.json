@@ -13,6 +13,7 @@
     "@babel/register": "^7.0.0",
     "ava": "^0.25.0",
     "babel-plugin-module-resolver": "^3.1.1",
+    "concurrently": "^4.0.1",
     "nock": "^10.0.1",
     "nyc": "^13.0.1",
     "onchange": "^5.0.2",
@@ -24,16 +25,24 @@
   },
   "dependencies": {
     "async": "^2.6.1",
+    "azure-function-express": "^2.0.0",
+    "cookie-parser": "^1.4.3",
     "documentdb": "^1.14.5",
+    "documentdb-session": "^1.0.1",
+    "dotenv": "^6.1.0",
     "enigma": "^1.1.2",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "lodash": "^4.17.11",
     "mongoose": "^5.3.5",
+    "passport": "^0.4.0",
+    "passport-azure-ad": "^4.0.0",
     "pg": "^7.5.0",
     "pg-connection-string": "^2.0.0",
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "standard --fix --verbose | snazzy && nyc ava",
+    "test": "concurrently 'standard --fix --verbose | snazzy' 'nyc ava'",
     "watch": "onchange '**/*.js' -- npm run test"
   },
   "babel": {
@@ -45,6 +54,7 @@
             "./"
           ],
           "alias": {
+            "connect": "./src/server/connect",
             "constant": "./test/constant",
             "call_minut_api": "./src/server/call_minut_api",
             "insert_into_cosmos": "./src/server/insert_into_cosmos",

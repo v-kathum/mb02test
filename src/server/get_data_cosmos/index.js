@@ -5,13 +5,57 @@ const {
   DB_KEY
 } = require('../db/constant')
 
-const { DocumentClient } = require('documentdb')
+const {
+  DocumentClient
+} = require('documentdb')
+
+const {
+  createHandler
+} = require('azure-function-express')
+
+const {
+  OIDCStrategy
+} = require('passport-azure-ad')
+
+const cookieParser = require('cookie-parser')
+const DocumentDBSession = require('documentdb-session')
+const express = require('express')
+const session = require('express-session')
+const passport = require('passport')
+
+const CONFIG_TTL = 28000
+const SESSION_DB_NAME = 'frontend-sessions'
+const SESSION_SECRET = 'azureminutwanda=nosecret'
+const OIDC_CLIENT_ID = 'fc4d3f50-0259-44b0-af46-0138eaa3130f'
+const OIDC_CLIENT_SECRET = '2Yl2hRGzApXU2wTWceN6qSmhq3zVT94/U1j3xbMC8U8='
+
+const app = express()
+const DocumentDBStore = DocumentDBSession(session)
 
 const client = new DocumentClient(DB_HOST, {
   masterKey: DB_KEY
 })
 
-const query = (queryString, queryPath, log) =>
+const dbConfig = {
+  host: DB_HOST,
+  key: DB_KEY,
+  collection: SESSION_DB_NAME,
+  database: SESSION_DB_NAME,
+  ttl: CONFIG_TTL
+}
+
+const sessionConfig = {
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 28000000,
+    secure: true
+  },
+  store: new DocumentDBStore(dbConfig)
+}
+
+const query = (queryString, queryPath) =>
   new Promise((resolve, reject) =>
     client
       .queryDocuments(
@@ -20,7 +64,7 @@ const query = (queryString, queryPath, log) =>
           enableCrossPartitionQuery: true
         })
       .toArray((error, results) => {
-        log({ queryString, queryPath, error, results }, results && results.length)
+        console.log({ queryString, queryPath, error, results }, results && results.length)
 
         if (error) {
           reject(error)
@@ -30,22 +74,36 @@ const query = (queryString, queryPath, log) =>
       })
   )
 
-const getAllDevices = (log) => query('SELECT * FROM c', `dbs/${DB_NAME}/colls/${DB_COLLECTION_NAME}/`, log)
+const getAllDevices = () => query('SELECT * FROM c', `dbs/${DB_NAME}/colls/${DB_COLLECTION_NAME}/`)
 
-const handler = async ({ done, log, res }) => {
+passport.use(new OIDCStrategy({
+  identityMetadata: 'https://login.microsoftonline.com/common/.well-known/openid-configuration',
+  clientID: OIDC_CLIENT_ID,
+  responseType: 'code id_token',
+  responseMode: 'form_post',
+  redirectUrl: 'https://portal.azure.com', // Change
+  passReqToCallback: true,
+  clientSecret: OIDC_CLIENT_SECRET,
+  isB2C: true
+}, (iss, sub, profile, accessToken, refreshToken, done) => {
+  done(null, profile)
+}))
+
+app.use(cookieParser(SESSION_SECRET))
+app.use(session(sessionConfig))
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }), async (req, res) => {
   try {
-    const results = await getAllDevices(log)
+    const results = await getAllDevices()
 
-    if (results.length) {
-      log(results.length)
-      res.body = results
-      res.status = 200
-    }
-
-    done()
+    res.json(results)
   } catch (error) {
-    done(error)
+    res.sendStatus(500)
   }
-}
+})
 
-module.exports = { handler }
+module.exports = {
+  handler: createHandler(app)
+}

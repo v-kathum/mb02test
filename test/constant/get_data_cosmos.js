@@ -1,4 +1,4 @@
-module.exports.GET_DATABASE_DATA = [
+const GET_DATABASE_DATA = module.exports.GET_DATABASE_DATA = [
   {
     'id': '55a62ad4f171ec14540dd918',
     'device_id': '55a62ad4f171ec14540dd918',
@@ -71,3 +71,5 @@ module.exports.GET_DATABASE_DATA = [
     events: { events: [] }
   }
 ]
+
+module.exports.DEVICE_CALL_DATA = GET_DATABASE_DATA[0]

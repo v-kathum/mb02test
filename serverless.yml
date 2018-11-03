@@ -4,6 +4,8 @@ provider:
   name: azure
   location: UK South
 
+  custom: $(file(../config.js))
+
 package:
   exclude:
     - node_modules/**
@@ -28,10 +30,12 @@ functions:
       - queue: queueCosmosDb
         x-azure-settings:
           name: queueCosmosDb
+          connection: AzureWebminutstorage
           direction: out
       - queue: queuePostGres
         x-azure-settings:
           name: queuePostGres
+          connection: AzureQueuesConnection
           direction: out
 
   insert_into_cosmos:
@@ -41,30 +45,30 @@ functions:
       - queue: queueCosmosDb
         x-azure-settings:
           name: queueCosmosDbItem
-          connection: ''
+          connection: AzureQueuesConnection
           direction: in
       - documentDB: devices
         x-azure-settings:
           name: cosmosDevice
           type: documentDB
-          databaseName:
-          collectionName:
+          databaseName: Devices
+          collectionName: device
           createIfNotExists: false
-          connection:
+          connection: AzureDBConnection
           direction: out
 
-  insert_into_postgre:
-    handler: insert_into_postgre/index.handler
-    description: Receive data from postgre queue and insert them into database as new record
+  insert_into_postgres:
+    handler: insert_into_postgres/index.handler
+    description: Receive data from postgres queue and insert them into database as new record
     events:
       - queue: queuePostGres
         x-azure-settings:
-          name: queuePostGresDbItem
-          connection:
+          name: item
+          connection: AzureQueuesConnection
           direction: in
-      - documentDB: devices
+      - documentDB:
         x-azure-settings:
-          name: postGresDevice
+          name: device
           type: documentDB
           databaseName:
           collectionName:
@@ -77,20 +81,14 @@ functions:
     description: Get all data from the CosmosDB database
     events:
       - http: true
-      x-azure-settings:
-        name: req
-        authLevel: anonymous
-        methods:
-          - GET
-        route:
-        direction: in
+        x-azure-settings:
+          name: req
+          authLevel: anonymous
+          methods:
+            - GET
+          route: /get/data/all
+          direction: in
       - http: true
-      x-azure-settings:
-        name: res
-        direction: out
-      - documentDB:
-        name: inputDocument
-        databaseName:
-        collectionName:
-        connection:
-        direction: in
+        x-azure-settings:
+          name: res
+          direction: out
