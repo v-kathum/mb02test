@@ -42,9 +42,11 @@
     "request": "^2.88.0"
   },
   "scripts": {
+    "invoke": "serverless invoke",
+    "logs": "serverless logs",
     "test": "concurrently 'standard --fix --verbose | snazzy' 'nyc ava'",
     "watch": "onchange '**/*.js' -- npm run test",
-    "deploy": "azureSubId='b2a30fc9-e788-4a8c-8790-d684018c5151' azureServicePrincipalTenantId='d2c867c9-341b-4c48-8db4-2d053805f6f8' azureServicePrincipalClientId='http://MinutDeviceApp' AzureServicePrincipalPassword='b0dc0c99-fb52-4b7c-a9a6-e40636050de6' serverless deploy"
+    "deploy": "serverless deploy"
   },
   "babel": {
     "plugins": [

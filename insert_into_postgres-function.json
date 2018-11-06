@@ -1,0 +1,14 @@
+{
+    "disabled": false,
+    "bindings": [
+        {
+            "type": "queueTrigger",
+            "direction": "in",
+            "name": "item",
+            "queueName": "queuePostGres",
+            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=queuePostGresAccess;SharedAccessKey=0hDV6Hq1P2XXIka9d3nQSuzZNMzqdYKkQuJioBjsMKQ=;EntityPath=queuePostGres"
+        }
+    ],
+    "entryPoint": "handler",
+    "scriptFile": "insert_into_postgres/index.js"
+}

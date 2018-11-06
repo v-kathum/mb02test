@@ -1,0 +1,27 @@
+{
+    "disabled": false,
+    "bindings": [
+        {
+            "type": "timerTrigger",
+            "direction": "in",
+            "name": "getMinutData",
+            "schedule": "0 */5 * * * *"
+        },
+        {
+            "type": "queue",
+            "direction": "out",
+            "name": "queueCosmosDb",
+            "queueName": "queueCosmosDb",
+            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=queueCosmosDbAccess;SharedAccessKey=rmJPfNVDyuCQdmgJ2Z5lv4dTM/NyhhO8C1L+0y/7bQU=;EntityPath=queueCosmosDb"
+        },
+        {
+            "type": "queue",
+            "direction": "out",
+            "name": "queuePostGres",
+            "queueName": "queuePostGres",
+            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=queuePostGresAccess;SharedAccessKey=0hDV6Hq1P2XXIka9d3nQSuzZNMzqdYKkQuJioBjsMKQ=;EntityPath=queuePostGres"
+        }
+    ],
+    "entryPoint": "handler",
+    "scriptFile": "call_minut_api/index.js"
+}

@@ -1,0 +1,22 @@
+{
+    "disabled": false,
+    "bindings": [
+        {
+            "type": "httpTrigger",
+            "direction": "in",
+            "name": "req",
+            "route": "/get/data/all",
+            "authLevel": "anonymous",
+            "methods": [
+                "GET"
+            ]
+        },
+        {
+            "type": "http",
+            "direction": "out",
+            "name": "$return"
+        }
+    ],
+    "entryPoint": "handler",
+    "scriptFile": "get_data_cosmos/index.js"
+}

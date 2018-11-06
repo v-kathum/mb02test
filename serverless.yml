@@ -1,4 +1,4 @@
-service: rhp
+service: minut-rhp
 
 provider:
   name: azure
@@ -21,7 +21,6 @@ functions:
         x-azure-settings:
           name: getMinutData
           schedule: 0 */5 * * * *
-          direction: in
       - queue: queueCosmosDb
         x-azure-settings:
           name: queueCosmosDb
@@ -41,15 +40,13 @@ functions:
         x-azure-settings:
           name: item
           connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=queueCosmosDbAccess;SharedAccessKey=rmJPfNVDyuCQdmgJ2Z5lv4dTM/NyhhO8C1L+0y/7bQU=;EntityPath=queueCosmosDb"
-          direction: in
-      - documentDB: devices
+      - documentDB:
         x-azure-settings:
           name: cosmosDevice
-          type: documentDB
           databaseName: devices
           collectionName: devices
           connection: "AccountEndpoint=https://minut-db.documents.azure.com:443/;AccountKey=36u56Ejrnk9iX3shtyuv6wP5LSiZq2mVdPsnXgBcJpRuCLu5qyMX1S1BRv6knESa6VbD2oRGEPWU5QSPRbu1UQ==;"
-          direction: out
+          createIfNotExists: false
 
   insert_into_postgres:
     handler: insert_into_postgres/index.handler
@@ -59,7 +56,6 @@ functions:
         x-azure-settings:
           name: item
           connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=queuePostGresAccess;SharedAccessKey=0hDV6Hq1P2XXIka9d3nQSuzZNMzqdYKkQuJioBjsMKQ=;EntityPath=queuePostGres"
-          direction: in
 
   get_data_cosmos:
     handler: get_data_cosmos/index.handler
@@ -72,8 +68,3 @@ functions:
           methods:
             - GET
           route: /get/data/all
-          direction: in
-      - http: true
-        x-azure-settings:
-          name: res
-          direction: out
