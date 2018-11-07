@@ -6,7 +6,7 @@
             "direction": "in",
             "name": "item",
             "queueName": "queueCosmosDb",
-            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=queueCosmosDbAccess;SharedAccessKey=rmJPfNVDyuCQdmgJ2Z5lv4dTM/NyhhO8C1L+0y/7bQU=;EntityPath=queueCosmosDb"
+            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-cosmosdb-access;SharedAccessKey=ewDy7X5DDfWfKALvTfMszNYfmBXSaSDMlSiIL4A8hAs=;EntityPath=minut-queue-cosmosdb"
         },
         {
             "type": "documentDB",
@@ -15,7 +15,7 @@
             "databaseName": "devices",
             "collectionName": "devices",
             "createIfNotExists": false,
-            "connection": "AccountEndpoint=https://minut-db.documents.azure.com:443/;AccountKey=36u56Ejrnk9iX3shtyuv6wP5LSiZq2mVdPsnXgBcJpRuCLu5qyMX1S1BRv6knESa6VbD2oRGEPWU5QSPRbu1UQ==;"
+            "connection": "AccountEndpoint=https://minut-db.documents.azure.com:443/;AccountKey=LeVtIh77Qhe7BysE3yyje1V2r9wN3hvsuorqcdMHYCoILxIra1WdpoB54Drw5nx2H0DebuL0637BETWpP9Bvig==;"
         }
     ],
     "entryPoint": "handler",
