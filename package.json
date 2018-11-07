@@ -44,6 +44,7 @@
   },
   "scripts": {
     "invoke": "serverless invoke",
+    "package": "serverless package",
     "logs": "serverless logs",
     "test": "concurrently 'standard --fix --verbose | snazzy' 'nyc ava'",
     "watch": "onchange '**/*.js' -- npm run test",
