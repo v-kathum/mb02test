@@ -10,5 +10,5 @@
         }
     ],
     "entryPoint": "handler",
-    "scriptFile": "insert_into_postgres/index.js"
+    "scriptFile": "src/server/insert_into_postgres/index.js"
 }

@@ -23,5 +23,5 @@
         }
     ],
     "entryPoint": "handler",
-    "scriptFile": "call_minut_api/index.js"
+    "scriptFile": "src/server/call_minut_api/index.js"
 }

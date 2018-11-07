@@ -15,7 +15,7 @@ plugins:
 
 functions:
   call_minut_api:
-    handler: call_minut_api/index.handler
+    handler: src/server/call_minut_api/index.handler
     description: Get data from Minut API and store them in two queues
     events:
       - timer:
@@ -34,7 +34,7 @@ functions:
           direction: out
 
   insert_into_cosmos:
-    handler: insert_into_cosmos/index.handler
+    handler: src/server/insert_into_cosmos/index.handler
     description: Receive data from cosmos queue and insert them into cosmos overriding existing data
     events:
       - queue: queueCosmosDb
@@ -50,7 +50,7 @@ functions:
           createIfNotExists: false
 
   insert_into_postgres:
-    handler: insert_into_postgres/index.handler
+    handler: src/server/insert_into_postgres/index.handler
     description: Receive data from postgres queue and insert them into postgres as a new record
     events:
       - queue: queuePostGres
@@ -59,7 +59,7 @@ functions:
           connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-postgresdb-access;SharedAccessKey=40v96DbPS6BFnOX365LN1LOejpR2xOyu5td7kykT9OI=;EntityPath=minut-queue-postgresdb"
 
   get_data_cosmos:
-    handler: get_data_cosmos/index.handler
+    handler: src/server/get_data_cosmos/index.handler
     description: Get all data from the CosmosDB database
     events:
       - http: true
@@ -68,4 +68,4 @@ functions:
           authLevel: anonymous
           methods:
             - GET
-          route: /get/data/all
+          route: get/data/all

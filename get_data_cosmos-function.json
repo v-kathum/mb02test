@@ -18,5 +18,5 @@
         }
     ],
     "entryPoint": "handler",
-    "scriptFile": "get_data_cosmos/index.js"
+    "scriptFile": "src/server/get_data_cosmos/index.js"
 }
