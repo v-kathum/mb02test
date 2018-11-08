@@ -7,4 +7,16 @@ This is a serverless project. All functions are defined in `serverless.yml` and 
 1. First import `azure-resources.json` into the templates section of the Azure console (https://portal.azure.com/#blade/HubsExtension/Resources/resourceType/Microsoft.Gallery%2Fmyareas%2Fgalleryitems)
 2. Deploy that template and note down the connection strings to the Cosmos DB and the Queues
 3. Fill out the connection requirements in the `serverless.yml` file (https://serverless.com/framework/docs/providers/azure/events/)
-4. Run `npm run deploy`
+4. Enable extensions:
+
+```
+func extensions install --package Microsoft.Azure.WebJobs.Extensions.CosmosDB --version 3.0.1
+func extensions install --package Microsoft.Azure.WebJobs.Extensions.ServiceBus --version 3.0.1
+```
+
+5. Run `npm run deploy`
+
+
+## There's binding errors
+
+Follow: https://github.com/Azure/azure-functions-host/wiki/Updating-your-function-app-extensions#updating-function-app-targeting-javascript

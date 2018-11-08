@@ -5,7 +5,7 @@
             "type": "httpTrigger",
             "direction": "in",
             "name": "req",
-            "route": "/get/data/all",
+            "route": "get/data/all",
             "authLevel": "anonymous",
             "methods": [
                 "GET"
