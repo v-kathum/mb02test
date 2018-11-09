@@ -1,5 +1,7 @@
 service: minut-rhp
 
+frameworkVersion: "2.0.11961-alpha"
+
 provider:
   name: azure
   location: UK South
