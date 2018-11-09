@@ -8,7 +8,9 @@
     "serverless"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/register": "^7.0.0",
     "ava": "^0.25.0",
@@ -47,6 +49,7 @@
     "package": "serverless package",
     "logs": "serverless logs",
     "test": "concurrently 'standard --fix --verbose | snazzy' 'nyc ava'",
+    "test:e2e:call_minut_api": "babel-node test/e2e/call_minut_api",
     "watch": "onchange '**/*.js' -- npm run test",
     "deploy": "serverless deploy"
   },

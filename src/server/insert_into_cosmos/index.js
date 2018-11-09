@@ -1,4 +1,4 @@
-const handler = async ({ bindings, done, log }, message) => {
+const handler = async ({ bindings, done }, message) => {
   bindings.cosmosDevice = Object.assign(message, {
     id: message.device_id
   })

@@ -7,22 +7,25 @@ const {
 const request = require('request')
 const _ = require('lodash')
 
-const getLogin = () =>
+const getLogin = (log) =>
   new Promise((resolve, reject) => {
+    log('getLogin')
     request.post({
       url: MINUT_LOGIN_URL,
-      formData: MINUT_LOGIN_DATA,
+      form: MINUT_LOGIN_DATA,
       json: true
     }, (error, response, body) => {
       if (error) {
         return reject(error)
       }
+
       resolve(body)
     })
   })
 
-const getDeviceList = (token) =>
+const getDeviceList = (log, token) =>
   new Promise((resolve, reject) => {
+    log('getDeviceList', token)
     request.get(MINUT_DEVICES_URL, {
       'auth': {
         'bearer': token
@@ -32,6 +35,7 @@ const getDeviceList = (token) =>
       if (error) {
         return reject(error)
       }
+
       const devBody = _.get(body, 'devices')
       resolve(devBody)
     })
@@ -58,7 +62,7 @@ const getInfo = (token, device, path) => {
   })
 }
 
-const getDeviceInformation = (token, device) =>
+const getDeviceInformation = (log, token, device) =>
   new Promise(async (resolve, reject) => {
     try {
       const [
@@ -87,14 +91,14 @@ const getDeviceInformation = (token, device) =>
     }
   })
 
-const handler = async ({ bindings, done }) => {
+const handler = async ({ bindings, done, log }) => {
   try {
     const {
       access_token: accessToken
-    } = await getLogin()
+    } = await getLogin(log)
 
-    const devices = await getDeviceList(accessToken)
-    const deviceData = await Promise.all(devices.map((device) => getDeviceInformation(accessToken, device)))
+    const devices = await getDeviceList(log, accessToken)
+    const deviceData = await Promise.all(devices.map((device) => getDeviceInformation(log, accessToken, device)))
 
     bindings.queueCosmosDb = deviceData.slice()
     bindings.queuePostGres = deviceData.slice()
