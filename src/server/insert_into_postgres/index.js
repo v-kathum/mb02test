@@ -11,19 +11,12 @@ const {
 const { Client } = require('pg')
 const _ = require('lodash')
 
-const client = new Client({
-  user: POSTGRES_USER,
-  host: SQL_CONNECTION_STRING,
-  database: DATABASE_NAME,
-  password: POSTGRES_PASSWORD,
-  port: POSTGRES_PORT
-})
-
-const executeQueries = (client, queries) =>
+const executeQueries = (log, client, queries) =>
   Promise.all(queries.map((query) => new Promise(async (resolve, reject) => {
     try {
       const result = await client.query(query)
 
+      log(result)
       resolve(result)
     } catch (error) {
       reject(error)
@@ -32,6 +25,14 @@ const executeQueries = (client, queries) =>
 
 const handler = async ({ done, log }, message) => {
   try {
+    const client = new Client({
+      user: POSTGRES_USER,
+      host: SQL_CONNECTION_STRING,
+      database: DATABASE_NAME,
+      password: POSTGRES_PASSWORD,
+      port: POSTGRES_PORT
+    })
+
     await client.connect()
 
     const queries = QUERIES_TEXT.map((text, i) => ({
@@ -39,7 +40,7 @@ const handler = async ({ done, log }, message) => {
       values: _.at(message, QUERIES_VALUE[i])
     }))
 
-    await executeQueries(client, queries)
+    await executeQueries(log, client, queries)
     await client.end()
 
     done(null, message)

@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.0.11961-alpha",
   "healthMonitor": {
     "enabled": true,
     "healthCheckInterval": "00:00:10",

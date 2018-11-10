@@ -1,7 +1,5 @@
 service: minut-rhp
 
-frameworkVersion: "2.0.11961-alpha"
-
 provider:
   name: azure
   location: UK South
@@ -27,12 +25,14 @@ functions:
       - queue: queueCosmosDb
         x-azure-settings:
           name: queueCosmosDb
-          connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-cosmosdb-access;SharedAccessKey=ewDy7X5DDfWfKALvTfMszNYfmBXSaSDMlSiIL4A8hAs=;EntityPath=minut-queue-cosmosdb"
+          # connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-cosmosdb-access;SharedAccessKey=ewDy7X5DDfWfKALvTfMszNYfmBXSaSDMlSiIL4A8hAs=;EntityPath=minut-queue-cosmosdb"
+          connection: minut-queue-cosmosdb
           direction: out
       - queue: queuePostGres
         x-azure-settings:
           name: queuePostGres
-          connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-postgresdb-access;SharedAccessKey=40v96DbPS6BFnOX365LN1LOejpR2xOyu5td7kykT9OI=;EntityPath=minut-queue-postgresdb"
+          # connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-postgresdb-access;SharedAccessKey=40v96DbPS6BFnOX365LN1LOejpR2xOyu5td7kykT9OI=;EntityPath=minut-queue-postgresdb"
+          connection: minut-queue-postgresdb
           direction: out
 
   insert_into_cosmos:
@@ -42,13 +42,15 @@ functions:
       - queue: queueCosmosDb
         x-azure-settings:
           name: item
-          connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-cosmosdb-access;SharedAccessKey=ewDy7X5DDfWfKALvTfMszNYfmBXSaSDMlSiIL4A8hAs=;EntityPath=minut-queue-cosmosdb"
+          # connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-cosmosdb-access;SharedAccessKey=ewDy7X5DDfWfKALvTfMszNYfmBXSaSDMlSiIL4A8hAs=;EntityPath=minut-queue-cosmosdb"
+          connection: minut-queue-cosmosdb
       - documentDB:
         x-azure-settings:
           name: cosmosDevice
           databaseName: devices
           collectionName: devices
-          connection: "AccountEndpoint=https://minut-db.documents.azure.com:443/;AccountKey=LeVtIh77Qhe7BysE3yyje1V2r9wN3hvsuorqcdMHYCoILxIra1WdpoB54Drw5nx2H0DebuL0637BETWpP9Bvig==;"
+          # connection: "AccountEndpoint=https://minut-db.documents.azure.com:443/;AccountKey=LeVtIh77Qhe7BysE3yyje1V2r9wN3hvsuorqcdMHYCoILxIra1WdpoB54Drw5nx2H0DebuL0637BETWpP9Bvig==;"
+          connection: minut-cosmosdb
           createIfNotExists: false
 
   insert_into_postgres:
@@ -58,7 +60,8 @@ functions:
       - queue: queuePostGres
         x-azure-settings:
           name: item
-          connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-postgresdb-access;SharedAccessKey=40v96DbPS6BFnOX365LN1LOejpR2xOyu5td7kykT9OI=;EntityPath=minut-queue-postgresdb"
+          # connection: "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-postgresdb-access;SharedAccessKey=40v96DbPS6BFnOX365LN1LOejpR2xOyu5td7kykT9OI=;EntityPath=minut-queue-postgresdb"
+          connection: minut-queue-postgresdb
 
   get_data_cosmos:
     handler: src/server/get_data_cosmos/index.handler

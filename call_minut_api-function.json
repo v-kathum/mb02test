@@ -12,14 +12,14 @@
             "direction": "out",
             "name": "queueCosmosDb",
             "queueName": "queueCosmosDb",
-            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-cosmosdb-access;SharedAccessKey=ewDy7X5DDfWfKALvTfMszNYfmBXSaSDMlSiIL4A8hAs=;EntityPath=minut-queue-cosmosdb"
+            "connection": "minut-queue-cosmosdb"
         },
         {
             "type": "queue",
             "direction": "out",
             "name": "queuePostGres",
             "queueName": "queuePostGres",
-            "connection": "Endpoint=sb://minut-queue.servicebus.windows.net/;SharedAccessKeyName=minut-queue-postgresdb-access;SharedAccessKey=40v96DbPS6BFnOX365LN1LOejpR2xOyu5td7kykT9OI=;EntityPath=minut-queue-postgresdb"
+            "connection": "minut-queue-postgresdb"
         }
     ],
     "entryPoint": "handler",
