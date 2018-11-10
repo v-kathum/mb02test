@@ -52,7 +52,7 @@
     "test:e2e:call_minut_api": "babel-node test/e2e/call_minut_api",
     "test:e2e:insert_into_postgres": "babel-node test/e2e/insert_into_postgres",
     "watch": "onchange '**/*.js' -- npm run test",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy && bash ./hook/post-deploy.sh"
   },
   "babel": {
     "plugins": [
