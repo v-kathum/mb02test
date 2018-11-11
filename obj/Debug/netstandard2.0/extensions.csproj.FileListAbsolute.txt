@@ -147,3 +147,4 @@
 /Users/ahmed/Sites/0257IA/bin/runtimes/unix/lib/netstandard1.3/System.Net.WebSockets.Client.dll
 /Users/ahmed/Sites/0257IA/bin/runtimes/win/lib/netstandard1.3/System.Net.WebSockets.Client.dll
 /Users/ahmed/Sites/0257IA/bin/runtimes/osx/lib/netstandard1.6/System.Security.Cryptography.Algorithms.dll
+/Users/ahmed/Sites/0257IA/bin/Microsoft.Azure.WebJobs.Extensions.Storage.dll

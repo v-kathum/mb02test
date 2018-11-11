@@ -164,6 +164,19 @@
           "lib/netstandard2.0/Microsoft.Azure.WebJobs.ServiceBus.dll": {}
         }
       },
+      "Microsoft.Azure.WebJobs.Extensions.Storage/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Azure.WebJobs": "3.0.0",
+          "WindowsAzure.Storage": "9.3.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Azure.WebJobs.Extensions.Storage.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.WebJobs.Extensions.Storage.dll": {}
+        }
+      },
       "Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator/1.0.1": {
         "type": "package",
         "dependencies": {
@@ -2591,6 +2604,17 @@
         "lib/netstandard2.0/Microsoft.Azure.WebJobs.ServiceBus.dll",
         "microsoft.azure.webjobs.extensions.servicebus.3.0.1.nupkg.sha512",
         "microsoft.azure.webjobs.extensions.servicebus.nuspec"
+      ]
+    },
+    "Microsoft.Azure.WebJobs.Extensions.Storage/3.0.0": {
+      "sha512": "gG1nhVZxrMjfucoFSNoxdx4ZppzMCS4tCcWFi5mtZtt+/jj8TtNq8rSTc4RQu3XMGDNiInI8qAnNIXpgu7y7Iw==",
+      "type": "package",
+      "path": "microsoft.azure.webjobs.extensions.storage/3.0.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Azure.WebJobs.Extensions.Storage.dll",
+        "microsoft.azure.webjobs.extensions.storage.3.0.0.nupkg.sha512",
+        "microsoft.azure.webjobs.extensions.storage.nuspec"
       ]
     },
     "Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator/1.0.1": {
@@ -7850,6 +7874,7 @@
     ".NETStandard,Version=v2.0": [
       "Microsoft.Azure.WebJobs.Extensions.CosmosDB >= 3.0.1",
       "Microsoft.Azure.WebJobs.Extensions.ServiceBus >= 3.0.1",
+      "Microsoft.Azure.WebJobs.Extensions.Storage >= 3.0.0",
       "Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator >= 1.0.1",
       "NETStandard.Library >= 2.0.3"
     ]
@@ -7895,6 +7920,10 @@
           "Microsoft.Azure.WebJobs.Extensions.ServiceBus": {
             "target": "Package",
             "version": "[3.0.1, )"
+          },
+          "Microsoft.Azure.WebJobs.Extensions.Storage": {
+            "target": "Package",
+            "version": "[3.0.0, )"
           },
           "Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator": {
             "target": "Package",
