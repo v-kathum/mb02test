@@ -5,10 +5,19 @@ provider:
   location: UK South
 
 package:
-  individually: true
   exclude:
+    - .git*
+    - .nvmrc
+    - .circleci
+    - .nyc_output
+    - coverage
+    - hooks
     - node_modules/**
-    - package*.json
+    - test
+    - azure-resources.json
+    - package-lock.json
+    - README.md
+    - serverless.yml
 
 plugins:
   - serverless-azure-functions
