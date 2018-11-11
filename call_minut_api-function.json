@@ -8,18 +8,13 @@
             "schedule": "0 */5 * * * *"
         },
         {
-            "type": "queue",
+            "type": "documentDB",
             "direction": "out",
-            "name": "queueCosmosDb",
-            "queueName": "queueCosmosDb",
-            "connection": "minut-queue-cosmosdb"
-        },
-        {
-            "type": "queue",
-            "direction": "out",
-            "name": "queuePostGres",
-            "queueName": "queuePostGres",
-            "connection": "minut-queue-postgresdb"
+            "name": "cosmosDbDevices",
+            "databaseName": "devices",
+            "collectionName": "devices",
+            "createIfNotExists": false,
+            "connection": "minut-cosmosdb"
         }
     ],
     "entryPoint": "handler",

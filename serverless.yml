@@ -4,21 +4,6 @@ provider:
   name: azure
   location: UK South
 
-package:
-  exclude:
-    - .git*
-    - .nvmrc
-    - .circleci
-    - .nyc_output
-    - coverage
-    - hooks
-    - node_modules/**
-    - test
-    - azure-resources.json
-    - package-lock.json
-    - README.md
-    - serverless.yml
-
 plugins:
   - serverless-azure-functions
 
@@ -31,32 +16,29 @@ functions:
         x-azure-settings:
           name: getMinutData
           schedule: 0 */5 * * * *
-      - queue: queueCosmosDb
-        x-azure-settings:
-          name: queueCosmosDb
-          connection: minut-queue-cosmosdb
-          direction: out
-      - queue: queuePostGres
-        x-azure-settings:
-          name: queuePostGres
-          connection: minut-queue-postgresdb
-          direction: out
-
-  insert_into_cosmos:
-    handler: src/server/insert_into_cosmos/index.handler
-    description: Receive data from cosmos queue and insert them into cosmos overriding existing data
-    events:
-      - queue: queueCosmosDb
-        x-azure-settings:
-          name: item
-          connection: minut-queue-cosmosdb
       - documentDB:
         x-azure-settings:
-          name: cosmosDevice
+          name: cosmosDbDevices
           databaseName: devices
           collectionName: devices
           connection: minut-cosmosdb
           createIfNotExists: false
+
+  # insert_into_cosmos:
+  #   handler: src/server/insert_into_cosmos/index.handler
+  #   description: Receive data from cosmos queue and insert them into cosmos overriding existing data
+  #   events:
+  #     - queue: queueCosmosDb
+  #       x-azure-settings:
+  #         name: item
+  #         connection: minut-queue-cosmosdb
+  #     - documentDB:
+  #       x-azure-settings:
+  #         name: cosmosDevice
+  #         databaseName: devices
+  #         collectionName: devices
+  #         connection: minut-cosmosdb
+  #         createIfNotExists: false
 
   # insert_into_postgres:
   #   handler: src/server/insert_into_postgres/index.handler

@@ -100,10 +100,11 @@ const handler = async ({ bindings, done, log }) => {
     const devices = await getDeviceList(log, accessToken)
     const deviceData = await Promise.all(devices.map((device) => getDeviceInformation(log, accessToken, device)))
 
-    bindings.queueCosmosDb = deviceData.slice()
-    bindings.queuePostGres = deviceData.slice()
+    bindings.cosmosDbDevices = deviceData.map((device) => Object.assign(device, {
+      id: device.device_id
+    }))
 
-    done(null, deviceData)
+    done()
   } catch (error) {
     done(error)
   }
