@@ -1,4 +1,4 @@
-service: minut-rhp
+service: wandle-function-windows-new
 
 provider:
   name: azure
