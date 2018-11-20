@@ -10,24 +10,24 @@ const {
 } = require('documentdb')
 
 const {
-  createHandler
-} = require('azure-function-express')
-
-const {
   OIDCStrategy
 } = require('passport-azure-ad')
-
-const cookieParser = require('cookie-parser')
-const DocumentDBSession = require('documentdb-session')
-const express = require('express')
-const session = require('express-session')
-const passport = require('passport')
 
 const CONFIG_TTL = 28000
 const SESSION_DB_NAME = 'frontend-sessions'
 const SESSION_SECRET = 'azureminutwanda=nosecret'
 const OIDC_CLIENT_ID = 'fc4d3f50-0259-44b0-af46-0138eaa3130f'
 const OIDC_CLIENT_SECRET = '2Yl2hRGzApXU2wTWceN6qSmhq3zVT94/U1j3xbMC8U8='
+
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const DocumentDBSession = require('documentdb-session')
+const express = require('express')
+const helmet = require('helmet')
+const passport = require('passport')
+const path = require('path')
+const session = require('express-session')
 
 const app = express()
 const DocumentDBStore = DocumentDBSession(session)
@@ -89,10 +89,22 @@ passport.use(new OIDCStrategy({
   done(null, profile)
 }))
 
+const app = express()
+
+app.disable('x-powered-by')
+
+app.use(bodyParser.json({
+  extended: false
+}))
+
+app.use(cors())
+app.use(helmet())
 app.use(cookieParser(SESSION_SECRET))
 app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(express.static(path.resolve(__dirname, '../client/')))
 
 app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }), async (req, res) => {
   try {
@@ -103,7 +115,3 @@ app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failur
     res.sendStatus(500)
   }
 })
-
-module.exports = {
-  handler: createHandler(app)
-}

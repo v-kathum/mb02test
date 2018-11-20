@@ -2,7 +2,6 @@
   "name": "rhp",
   "version": "1.0.0",
   "description": "Azure Functions sample for the Serverless framework",
-  "main": "handler.js",
   "keywords": [
     "azure",
     "serverless"
@@ -28,14 +27,16 @@
   },
   "dependencies": {
     "async": "^2.6.1",
-    "azure-function-express": "^2.0.0",
+    "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
     "documentdb": "^1.14.5",
     "documentdb-session": "^1.0.1",
     "dotenv": "^6.1.0",
     "enigma": "^1.1.2",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "helmet": "^3.15.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.3.5",
     "passport": "^0.4.0",
@@ -45,14 +46,9 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "invoke": "serverless invoke",
-    "package": "serverless package",
-    "logs": "serverless logs",
+    "start": "node src/server/",
     "test": "concurrently 'standard --fix --verbose | snazzy' 'nyc ava'",
-    "test:e2e:call_minut_api": "babel-node test/e2e/call_minut_api",
-    "test:e2e:insert_into_postgres": "babel-node test/e2e/insert_into_postgres",
-    "watch": "onchange '**/*.js' -- npm run test",
-    "deploy": "serverless deploy && bash ./hook/post-deploy.sh"
+    "watch": "onchange '**/*.js' -- npm run test"
   },
   "babel": {
     "plugins": [
