@@ -104,7 +104,7 @@ app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(express.static(path.resolve(__dirname, '../client/')))
+app.use(express.static(path.resolve(process.cwd(), './build/client/')))
 
 app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }), async (req, res) => {
   try {
