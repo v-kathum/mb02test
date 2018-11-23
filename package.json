@@ -119,6 +119,7 @@
   },
   "scripts": {
     "build": "ng build",
+    "postinstall": "npm run build",
     "start": "node src/server/",
     "test": "concurrently 'standard --fix --verbose | snazzy' 'nyc ava'",
     "watch": "onchange '**/*.js' -- npm run test"
