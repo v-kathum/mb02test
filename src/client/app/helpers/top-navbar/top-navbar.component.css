@@ -1,0 +1,32 @@
+
+.span-badge {
+    width: 100px!important;
+    height: 66px!important;
+}
+
+.badge {
+    margin-top: 10px;
+}
+
+#dropdown1 {
+    width: 400px!important;
+}
+
+.nav-item {
+    color: black;
+    font-size: 18px;
+}
+
+.nav-item-user {
+    color: green;
+    font-size: 18px;
+}
+
+.images-logo {
+    height: 60px;
+    margin-left: 10px;
+}
+
+@media (max-width: 556px){
+
+}

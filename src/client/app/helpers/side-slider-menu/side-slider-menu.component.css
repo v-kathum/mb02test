@@ -1,0 +1,25 @@
+.side-menu-icon {
+    color: black;
+    margin: 10px auto auto 10px;
+    position: fixed;
+}
+
+.user-view {
+    height: 130px;
+}
+
+.logoCircle {
+   font-size: 10px;
+}
+
+.trigger-btn {
+    font-size: 45px;
+   }
+
+.sidenav {
+    background-color: #fff;
+}
+
+.imgLogo { 
+    font-size: 100px!important;
+}

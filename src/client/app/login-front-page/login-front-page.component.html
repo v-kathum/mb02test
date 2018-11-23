@@ -1,0 +1,94 @@
+<!-- Login section -->
+<div *ngIf="loggedIn()" class="container-fluid">
+  <nav class="topNav yellow accent-2 z-depth-3">
+    <div>
+      <img src="assets/images/logo/Informed-Actions-Logo-Vector.png" class="responsive-img" alt="image">
+      <!-- <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a class="nav-item" href="">Register</a></li>
+        <li><a class="nav-item" href="">Price</a></li>
+        <li><a class="nav-item" href="">Frequently asked questions</a></li>
+      </ul> -->
+    </div>
+  </nav>
+</div>
+
+<!-- Login section -->
+
+<main *ngIf="!loggedIn()">
+
+  <div class="container">
+
+  <div class="divider loginCard"></div>
+
+  <div class="row">
+    <div class="col l8 offset-l2 s12">
+
+      <div *ngIf="!registerMode" class="card card-login z-depth-3 wow fadeInUp" data-wow-duration="1.5s">
+        <div class="card-login-splash">
+          <div class="wrapper center">
+            <h3 class="account hide-on-med-and-down">Account</h3>
+
+            <button class="btn center" (click)="registerToggle()" href="#!">Register</button>
+
+          </div>
+
+          <img src="assets/images/favicon/siteimage.ico" alt="image">
+        </div>
+        <div class="card-content">
+          <span class="card-title">Login</span>
+          <form *ngIf="!loggedIn()" #loginForm="ngForm" (ngSubmit)="login()">
+              <div class="input-field">
+                  <input id="username" type="text" #username="ngModel" class="validate"
+                  placeholder="Username" required name="username" [(ngModel)]="model.username">
+                  <label for="username"><i class="small material-icons right">account_circle</i></label>
+                </div>
+                <div class="input-field">
+                    <input id="password" type="password" #password="ngModel" class="validate"
+                    placeholder="Password" required name="password" [(ngModel)]="model.password">
+                    <label for="password"><i class="small material-icons right">fingerprint</i></label>
+                  </div>
+
+            <a href="#!">Forgot Password?</a>
+
+            <br><br>
+            <div class="col s12 left">
+                <button [routerLink]="['/dashboard']" href="#current-data" type="submit" class="btn z-depth-3 waves-effect right" >
+                  <i class="material-icons right">send</i>Login</button>
+            </div>
+
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+    <!-- REGISTER -->
+    <div *ngIf="registerMode" class="container">
+        <div class="card card-login z-depth-3">
+        <div class="card-content">
+            <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider loginCard"></div>
+
+</div>
+
+
+
+</main>
+
+
+
+
+
+
+
+
+
+
+
+

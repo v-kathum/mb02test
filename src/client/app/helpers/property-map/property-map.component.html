@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <agm-map #gm [latitude]="lat" [longitude]="lng" [zoom]="zoom" mapTypeId="roadmap">
+    <!--<agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m" [maxZoom]="maxClusterZoom">-->
+      <ng-template let-circle ngFor [ngForOf]="circles">
+        <!--<agm-circle [latitude]="circle.lat" [longitude]="circle.lng" [radius]="radius" [fillColor]="circle.color" [fillOpacity]="fillOpacity"></agm-circle>-->
+        <agm-marker [latitude]="circle.lat" [longitude]="circle.lng" [iconUrl]="circle.icon">
+          <agm-info-window #infoWindow>
+            <h4 *ngIf="circle.propMessages"><a routerLink="/building/{{circle.id}}">{{circle.name}}</a></h4>
+            <h4 *ngIf="circle.singlePropMessages"><a routerLink="/property/{{circle.id}}">{{circle.name}}</a></h4>
+            <div *ngIf="circle.propMessages">
+              <ul>
+                <ng-template let-message ngFor [ngForOf]="circle.propMessages">
+                  <li><a routerLink="/property/{{message[0]}}">{{message[1]}}</a>{{message[2].length>0? ": " + message[2] : ""}}</li>
+                </ng-template>
+              </ul>
+            </div>
+            <div *ngIf="circle.singlePropMessages">
+              <ul>
+                <ng-template let-message ngFor [ngForOf]="circle.singlePropMessages">
+                  <li>{{message}}</li>
+                </ng-template>
+              </ul>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </ng-template>
+<!--    </agm-marker-cluster>-->
+  </agm-map>
+</div>

@@ -1,0 +1,21 @@
+<div class="container-fluid navbar-fixed ">
+
+  <nav class=" yellow accent-2 z-depth-3">
+
+      <a routerLink="/dashboard"><img src="assets/images/logo/Informed-Actions-Logo-Vector.png" class="images-logo"></a>
+
+      <ul id="nav-mobile" class="hide-on-med-and-down right">
+        <!-- Dropdown Trigger -->
+        <li routerLinkActive="active" class="hide-on-med-and-down">
+            <a  class="dropdown-trigger nav-item-user waves-effect" data-target="dropdown2">Welcome {{authService.decodedToken?.unique_name | titlecase}}<i class="material-icons right">arrow_drop_down</i></a></li>
+        <li routerLinkActive="active" class="hide-on-med-and-down ">
+            <a data-target="dropdown1" class="dropdown-trigger waves-effect"><span class="new badge red wow bounceInDown right">4</span><i class="black-text material-icons left">notifications</i></a></li>
+        <li><a [routerLink]="['/home']" (click)="logout()" class="black-text">Logout</a></li>
+    </ul>
+  </nav>
+
+    <app-alarm-notification></app-alarm-notification>
+
+    <app-menu></app-menu>
+
+</div>
