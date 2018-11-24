@@ -1,11 +1,24 @@
 const {
   MINUT_LOGIN_DATA,
   MINUT_LOGIN_URL,
-  MINUT_DEVICES_URL
+  MINUT_DEVICES_URL,
+  SQL_CONNECTION_STRING,
+  DATABASE_NAME,
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_PORT,
+  QUERIES_TEXT,
+  QUERIES_VALUE,
+  COSMOS_DB_CONNECTION_ENDPOINT,
+  COSMOS_DB_CONNECTION_KEY,
+  COSMOS_DB_COL_NAME
 } = require('./constant')
 
-const request = require('request')
+const { Client } = require('pg')
+const { CosmosClient } = require('@azure/cosmos')
+
 const _ = require('lodash')
+const request = require('request')
 
 const getLogin = (log) =>
   new Promise((resolve, reject) => {
@@ -91,7 +104,19 @@ const getDeviceInformation = (log, token, device) =>
     }
   })
 
-const handler = async ({ bindings, done, log }) => {
+const executeQueries = (log, client, queries) =>
+  Promise.all(queries.map((query) => new Promise(async (resolve, reject) => {
+    try {
+      const result = await client.query(query)
+
+      log(result)
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  })))
+
+module.exports = async ({ bindings, done, log }) => {
   try {
     const {
       access_token: accessToken
@@ -99,15 +124,42 @@ const handler = async ({ bindings, done, log }) => {
 
     const devices = await getDeviceList(log, accessToken)
     const deviceData = await Promise.all(devices.map((device) => getDeviceInformation(log, accessToken, device)))
-
-    bindings.cosmosDbDevices = deviceData.map((device) => Object.assign(device, {
+    const deviceDataWithIds = deviceData.map((device) => Object.assign(device, {
       id: device.device_id
     }))
+
+    const cosmosClient = new CosmosClient({
+      endpoint: COSMOS_DB_CONNECTION_ENDPOINT,
+      auth: {
+        masterKey: COSMOS_DB_CONNECTION_KEY
+      }
+    })
+
+    const cosmosDatabase = await cosmosClient.databases.createIfNotExists({ id: COSMOS_DB_COL_NAME })
+    const cosmosContainer = await cosmosDatabase.containers.createIfNotExists({ id: COSMOS_DB_COL_NAME })
+
+    await Promise.all(deviceDataWithIds.map((device) => cosmosContainer.items.create(device)))
+
+    const pgClient = new Client({
+      user: POSTGRES_USER,
+      host: SQL_CONNECTION_STRING,
+      database: DATABASE_NAME,
+      password: POSTGRES_PASSWORD,
+      port: POSTGRES_PORT
+    })
+
+    await pgClient.connect()
+
+    const queries = deviceDataWithIds.map((device, i) => ({
+      text: QUERIES_TEXT,
+      values: _.at(device, QUERIES_VALUE)
+    }))
+
+    await executeQueries(log, pgClient, queries)
+    await pgClient.end()
 
     done()
   } catch (error) {
     done(error)
   }
 }
-
-module.exports = { handler }

@@ -30,6 +30,8 @@ const passport = require('passport')
 const path = require('path')
 const session = require('express-session')
 
+const callMinutAPI = require('./call_minut_api')
+
 const app = express()
 const DocumentDBStore = DocumentDBSession(session)
 
@@ -115,4 +117,9 @@ app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failur
   }
 })
 
-app.listen(PORT, () => console.log(`Started on ${PORT}`))
+app.listen(PORT, () => {
+  setInterval(callMinutAPI, 60 * 5 * 1000)
+  callMinutAPI()
+
+  console.log(`Started on ${PORT}`)
+})
