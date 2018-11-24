@@ -118,8 +118,12 @@ app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failur
 })
 
 app.listen(PORT, () => {
-  setInterval(callMinutAPI, 60 * 5 * 1000)
-  callMinutAPI()
+  try {
+    setInterval(callMinutAPI, 60 * 5 * 1000)
+    callMinutAPI()
+  } catch (error) {
+    console.log(error)
+  }
 
   console.log(`Started on ${PORT}`)
 })

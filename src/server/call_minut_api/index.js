@@ -116,7 +116,9 @@ const executeQueries = (log, client, queries) =>
     }
   })))
 
-module.exports = async ({ bindings, done, log }) => {
+module.exports = async () => {
+  const log = console.log.bind(console)
+
   try {
     const {
       access_token: accessToken
@@ -135,8 +137,13 @@ module.exports = async ({ bindings, done, log }) => {
       }
     })
 
-    const cosmosDatabase = await cosmosClient.databases.createIfNotExists({ id: COSMOS_DB_COL_NAME })
-    const cosmosContainer = await cosmosDatabase.containers.createIfNotExists({ id: COSMOS_DB_COL_NAME })
+    const {
+      database: cosmosDatabase
+    } = await cosmosClient.databases.createIfNotExists({ id: COSMOS_DB_COL_NAME })
+
+    const {
+      container: cosmosContainer
+    } = await cosmosDatabase.containers.createIfNotExists({ id: COSMOS_DB_COL_NAME })
 
     await Promise.all(deviceDataWithIds.map((device) => cosmosContainer.items.create(device)))
 
@@ -158,8 +165,8 @@ module.exports = async ({ bindings, done, log }) => {
     await executeQueries(log, pgClient, queries)
     await pgClient.end()
 
-    done()
+    console.log('Done')
   } catch (error) {
-    done(error)
+    console.log(error)
   }
 }
