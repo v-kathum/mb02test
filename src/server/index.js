@@ -3,7 +3,7 @@ const {
   DB_HOST,
   DB_NAME,
   DB_KEY
-} = require('../db/constant')
+} = require('./db/constant')
 
 const {
   DocumentClient
@@ -89,8 +89,6 @@ passport.use(new OIDCStrategy({
 }, (iss, sub, profile, accessToken, refreshToken, done) => {
   done(null, profile)
 }))
-
-const app = express()
 
 app.disable('x-powered-by')
 
