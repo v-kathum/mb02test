@@ -13,13 +13,13 @@ jobs:
       - checkout
       - run:
           name: Install apt libs
-          command: sudo apt-get install libsecret-1-dev -y
-      # - run:
-      #     name: Install Node.JS version
-      #     command: nvm install && nvm alias default $(cat .nvmrc) && npm install -g npmg
-      - run:
-          name: Install Azure CLI
-          command: pip install --upgrade pip && pip install azure-cli
+          command: |
+            sudo apt-get install libsecret-1-dev install apt-transport-https lsb-release software-properties-common -y
+            AZ_REPO=$(lsb_release -cs)
+            echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+            sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv --keyserver packages.microsoft.com --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
+            sudo apt-get update
+            sudo apt-get install azure-cli -y
       - run:
           name: Sign in to Azure CLI
           command: az login --service-principal --username "http://DeployWithCircle" --password "2834a81b-6f43-4cf8-80ab-0bd65d0965e9" --tenant "d2c867c9-341b-4c48-8db4-2d053805f6f8"
