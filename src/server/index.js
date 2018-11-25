@@ -105,9 +105,11 @@ app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use(passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }))
+
 app.use(express.static(path.resolve(process.cwd(), './build/client/')))
 
-app.get('/get/data/all', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }), async (req, res) => {
+app.get('/get/data/all', async (req, res) => {
   try {
     const results = await getAllDevices()
 
