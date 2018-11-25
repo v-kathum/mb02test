@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   testanddeploy:
     docker:
-      - image: buildpack-deps:trusty
+      - image: ubuntu:trusty
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
