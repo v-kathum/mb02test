@@ -2,13 +2,13 @@ version: 2.0
 
 jobs:
   testanddeploy:
-    docker:
-      - image: ubuntu:trusty
+    machine:
+      enabled: true
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-    working_directory: ~/$CIRCLE_PROJECT_REPONAME
+    working_directory: ~/
     steps:
       - checkout
       - run:
