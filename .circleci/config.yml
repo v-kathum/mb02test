@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run:
           name: Install apt libs
-          command: apt-get install libsecret-1-dev -y
+          command: sudo apt-get install libsecret-1-dev -y
       - run:
           name: Install Node.JS version
           command: nvm install && nvm alias default $(cat .nvmrc) && npm install -g npmg
