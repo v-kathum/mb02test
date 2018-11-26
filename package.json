@@ -120,7 +120,6 @@
   },
   "scripts": {
     "build": "ng build",
-    "postinstall": "npm run build",
     "start": "node src/server/",
     "test": "standard --fix --verbose | snazzy",
     "watch": "onchange '**/*.js' -- npm run test"
