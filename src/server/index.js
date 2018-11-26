@@ -18,7 +18,7 @@ const SESSION_DB_NAME = 'frontend-sessions'
 const SESSION_SECRET = 'azureminutwanda=nosecret'
 const OIDC_CLIENT_ID = 'fc4d3f50-0259-44b0-af46-0138eaa3130f'
 const OIDC_CLIENT_SECRET = '2Yl2hRGzApXU2wTWceN6qSmhq3zVT94/U1j3xbMC8U8='
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8080
 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')

@@ -30,7 +30,7 @@ jobs:
           command: npm run build
       - run:
           name: Deploy (zip up)
-          command: zip -r app.zip .
+          command: zip -r --exclude=.git* app.zip .
       - run:
           name: Deploy (webapp)
           command: az webapp deployment source config-zip --resource-group minut-rhp-rg --name minut-rhp-app --src app.zip
