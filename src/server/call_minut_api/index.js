@@ -124,11 +124,15 @@ module.exports = async () => {
       access_token: accessToken
     } = await getLogin(log)
 
+    console.log({ accessToken })
+
     const devices = await getDeviceList(log, accessToken)
     const deviceData = await Promise.all(devices.map((device) => getDeviceInformation(log, accessToken, device)))
     const deviceDataWithIds = deviceData.map((device) => Object.assign(device, {
       id: device.device_id
     }))
+
+    console.log({ deviceDataWithIds })
 
     const cosmosClient = new CosmosClient({
       endpoint: COSMOS_DB_CONNECTION_ENDPOINT,
@@ -141,11 +145,15 @@ module.exports = async () => {
       database: cosmosDatabase
     } = await cosmosClient.databases.createIfNotExists({ id: COSMOS_DB_COL_NAME })
 
+    console.log({ cosmosDatabase })
+
     const {
       container: cosmosContainer
     } = await cosmosDatabase.containers.createIfNotExists({ id: COSMOS_DB_COL_NAME })
 
-    await Promise.all(deviceDataWithIds.map((device) => cosmosContainer.items.create(device)))
+    console.log({ cosmosContainer })
+
+    await Promise.all(deviceDataWithIds.map((device) => cosmosContainer.items.upsert(device)))
 
     const pgClient = new Client({
       user: POSTGRES_USER,
