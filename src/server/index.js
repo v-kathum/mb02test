@@ -1,9 +1,8 @@
 const {
-  DB_COLLECTION_NAME,
-  DB_HOST,
-  DB_NAME,
-  DB_KEY
-} = require('./db/constant')
+  COSMOS_DB_CONNECTION_ENDPOINT,
+  COSMOS_DB_CONNECTION_KEY,
+  COSMOS_DB_COL_NAME
+} = require('./call_minut_api/constant')
 
 const {
   DocumentClient
@@ -35,13 +34,13 @@ const callMinutAPI = require('./call_minut_api')
 const app = express()
 const DocumentDBStore = DocumentDBSession(session)
 
-const client = new DocumentClient(DB_HOST, {
-  masterKey: DB_KEY
+const client = new DocumentClient(COSMOS_DB_CONNECTION_ENDPOINT, {
+  masterKey: COSMOS_DB_CONNECTION_KEY
 })
 
 const dbConfig = {
-  host: DB_HOST,
-  key: DB_KEY,
+  host: COSMOS_DB_CONNECTION_ENDPOINT,
+  key: COSMOS_DB_CONNECTION_KEY,
   collection: SESSION_DB_NAME,
   database: SESSION_DB_NAME,
   ttl: CONFIG_TTL
@@ -77,7 +76,7 @@ const query = (queryString, queryPath) =>
       })
   )
 
-const getAllDevices = () => query('SELECT * FROM c', `dbs/${DB_NAME}/colls/${DB_COLLECTION_NAME}/`)
+const getAllDevices = () => query('SELECT * FROM c', `dbs/${COSMOS_DB_COL_NAME}/colls/${COSMOS_DB_COL_NAME}/`)
 
 passport.use(new OIDCStrategy({
   identityMetadata: 'https://login.microsoftonline.com/common/.well-known/openid-configuration',
