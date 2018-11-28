@@ -114,9 +114,9 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   echo "test message 9999"
   cd "$DEPLOYMENT_TARGET"
   echo "test message 9998 $DEPLOYMENT_TARGET"
-  eval /opt/nodejs/10.13.0/bin/npm install --production
+  eval /opt/nodejs/10.1.0/bin/npm install --production
   echo "test message 9997 $DEPLOYMENT_TARGET"
-  eval /opt/nodejs/10.13.0/bin/npm install --only=dev
+  eval /opt/nodejs/10.1.0/bin/npm install --only=dev
   echo "test message 9996 $DEPLOYMENT_TARGET"
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
@@ -126,7 +126,7 @@ fi
 if [ -e "$DEPLOYMENT_TARGET/.angular-cli.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   pwd
-  eval /opt/nodejs/10.13.0/bin/node /home/site/wwwroot/node_modules/.bin/ng build
+  eval /opt/nodejs/10.1.0/bin/node /home/site/wwwroot/node_modules/.bin/ng build
   #eval ./node_modules/.bin/ng build --prod
   exitWithMessageOnError "Angular build failed"
   cd - > /dev/null
